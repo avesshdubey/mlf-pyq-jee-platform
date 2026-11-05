@@ -86,3 +86,21 @@ Iteration 7: Task 8 Completed - Precision Spatial Extraction & Complete Option/S
   * Solution Review: displays stem diagrams, candidate response, official correct answer, and full options with formula images and visual correctness indicators.
 - Verified test suite (`tests/test_platform.py`): all 4 tests passed (0.010s).
 --------------------------------------------------------------------------------
+Iteration 8: Task 9 Completed - 100% Visual Fidelity via High-Resolution Question Paper Cards & Exact Answer Keys
+- Root-cause analyzed user feedback: TCS iON renders math variables as inline image clips between words, causing text parsers to drop variables ($A, B, P, v, \mathbb{R}^n$) and leak section banners into question stems.
+- Engineered high-resolution question paper card cropper (`scripts/build_exact_dataset.py`) at 150 DPI directly from source PDF question papers:
+  * Seamless multi-page stitching for questions that span page breaks.
+  * Automatic attachment of comprehension problem statements and scatter plots to each subquestion card.
+  * Resized and optimized cards to 800px max width (quality 78, 33.58 MB total across 704 cards).
+- Implemented sub-pixel closest-matching algorithm (< 5 pt) mapping TCS iON green checkmark icons to exact option choices, eliminating duplicate correct answers.
+- Regenerated publication-ready `mlf_questions_categorized.pdf` (40.47 MB, 677 unique questions):
+  * Embeds high-resolution question paper card for every question.
+  * Formats official answer keys (`✔ Official Answer Key: Option (A)` / NAT value) and source paper metadata.
+  * Dynamic Executive Summary with exact syllabus taxonomy metrics.
+- Updated interactive NTA/JEE CBT web application (`index.html`, `js/jee_app.js`, `css/jee_style.css`):
+  * Main Question View: displays crisp question paper cards without artificial height constraints, followed by clean option selectors.
+  * Question Paper Modal: displays complete question paper cards for all questions.
+  * Scorecard Detailed Review: displays full question paper cards above candidate answers, official keys, and correctness indicators.
+- Verified test suite (`tests/test_platform.py`): 4 tests passed (0.121s).
+- Atomic Git commit and auto-push to GitHub remote `origin main`.
+--------------------------------------------------------------------------------

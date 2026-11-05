@@ -51,3 +51,11 @@
   - Eliminate blank option text by linking 279 formula images and 396 option texts.
   - Enhance `generate_pdf.py` to embed option images inside table rows.
   - Enhance `js/jee_app.js` and `css/jee_style.css` to render option images and multiple stem diagrams across exam view, question paper modal, and scorecard review.
+
+- [x] **Task 9: Complete 100% Visual Fidelity via High-Resolution Question Paper Cards & Closest-Icon Answer Key Matching**
+  - High-resolution 150 DPI question paper card cropper (`scripts/build_exact_dataset.py`) capturing exact question stems, inline math formulas, matrices, plots, and options directly from source exam papers.
+  - Sub-pixel closest-matching algorithm (< 5 pt) mapping TCS iON green checkmark icons to exact option choices, eliminating duplicate correct answers.
+  - Multi-page question stitching and comprehension passage pre-attachment to guarantee context completeness.
+  - Regenerated `mlf_questions_categorized.pdf` (40.47 MB, 677 unique questions) embedding exact question paper cards and official answer keys.
+  - Updated web application (`index.html`, `js/jee_app.js`, `css/jee_style.css`) with clean card-first presentation across main examination view, question paper modal, and post-submission scorecard review.
+  - Passed all verification test suites (`tests/test_platform.py`).

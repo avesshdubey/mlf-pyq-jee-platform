@@ -362,22 +362,31 @@
         elements.qSourceList.textContent = sources.length > 0 ? 
             `${sources[0]} ${sources.length > 1 ? `(+${sources.length - 1} more paper sessions)` : ''}` : 'Official IITM Session';
 
-        // Stem Text
-        elements.qStemText.textContent = q.question_text || "[Refer to diagram / matrix statement below]";
-
-        // Stem Images (Diagrams / Formulas / Tables)
+        // Stem Text & Official Question Paper Card
         elements.qStemImageBox.innerHTML = '';
-        if (q.images && q.images.length > 0) {
-            q.images.forEach(imgSrc => {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.alt = "Question Problem Diagram / Formula";
-                img.className = "stem-diagram-img";
-                elements.qStemImageBox.appendChild(img);
-            });
+        if (q.card_image) {
+            const img = document.createElement('img');
+            img.src = q.card_image;
+            img.alt = `Question Paper Card ${q.id}`;
+            img.className = 'question-paper-card';
+            elements.qStemImageBox.appendChild(img);
             elements.qStemImageBox.style.display = 'block';
+            elements.qStemText.style.display = 'none';
         } else {
-            elements.qStemImageBox.style.display = 'none';
+            elements.qStemText.style.display = 'block';
+            elements.qStemText.textContent = q.question_text || "[Refer to question paper diagram]";
+            if (q.images && q.images.length > 0) {
+                q.images.forEach(imgSrc => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.alt = "Question Problem Diagram / Formula";
+                    img.className = "stem-diagram-img";
+                    elements.qStemImageBox.appendChild(img);
+                });
+                elements.qStemImageBox.style.display = 'block';
+            } else {
+                elements.qStemImageBox.style.display = 'none';
+            }
         }
 
         // Render Inputs
@@ -677,64 +686,66 @@
             const header = document.createElement('h4');
             header.style.color = '#1e3a8a';
             header.textContent = `Q${idx + 1} (${q.id}) [${q.question_type}] - Marks: +${q.marks}`;
-            
-            const stem = document.createElement('p');
-            stem.style.margin = '6px 0 10px 0';
-            stem.textContent = q.question_text || "[Refer to diagram/matrix in main view]";
-
             card.appendChild(header);
-            card.appendChild(stem);
 
-            if (q.images && q.images.length > 0) {
-                const imgContainer = document.createElement('div');
-                imgContainer.style.margin = '8px 0';
-                q.images.forEach(imgSrc => {
-                    const img = document.createElement('img');
-                    img.src = imgSrc;
-                    img.style.maxHeight = '140px';
-                    img.style.maxWidth = '100%';
-                    img.style.display = 'block';
-                    img.style.margin = '6px 0';
-                    img.style.border = '1px solid #cbd5e1';
-                    img.style.borderRadius = '4px';
-                    imgContainer.appendChild(img);
-                });
-                card.appendChild(imgContainer);
-            }
+            if (q.card_image) {
+                const img = document.createElement('img');
+                img.src = q.card_image;
+                img.alt = `Official Question Paper Card ${q.id}`;
+                img.className = 'question-paper-card';
+                card.appendChild(img);
+            } else {
+                const stem = document.createElement('p');
+                stem.style.margin = '6px 0 10px 0';
+                stem.textContent = q.question_text || "[Refer to diagram/matrix in main view]";
+                card.appendChild(stem);
 
-            if (q.options && q.options.length > 0) {
-                const optList = document.createElement('ul');
-                optList.style.listStyle = 'none';
-                optList.style.paddingLeft = '10px';
-                q.options.forEach(o => {
-                    const li = document.createElement('li');
-                    li.style.marginBottom = '6px';
-                    li.style.display = 'flex';
-                    li.style.alignItems = 'center';
-                    li.style.gap = '8px';
-                    
-                    const spanLabel = document.createElement('span');
-                    spanLabel.style.fontWeight = 'bold';
-                    spanLabel.textContent = `(${o.id})`;
-                    li.appendChild(spanLabel);
-                    
-                    if (o.text) {
-                        const spanTxt = document.createElement('span');
-                        spanTxt.textContent = o.text;
-                        li.appendChild(spanTxt);
-                    }
-                    if (o.image) {
+                if (q.images && q.images.length > 0) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.style.margin = '8px 0';
+                    q.images.forEach(imgSrc => {
                         const img = document.createElement('img');
-                        img.src = o.image;
-                        img.style.maxHeight = '45px';
-                        img.style.verticalAlign = 'middle';
-                        img.style.border = '1px solid #cbd5e1';
-                        img.style.borderRadius = '3px';
-                        li.appendChild(img);
-                    }
-                    optList.appendChild(li);
-                });
-                card.appendChild(optList);
+                        img.src = imgSrc;
+                        img.className = 'stem-diagram-img';
+                        imgContainer.appendChild(img);
+                    });
+                    card.appendChild(imgContainer);
+                }
+
+                if (q.options && q.options.length > 0) {
+                    const optList = document.createElement('ul');
+                    optList.style.listStyle = 'none';
+                    optList.style.paddingLeft = '10px';
+                    q.options.forEach(o => {
+                        const li = document.createElement('li');
+                        li.style.marginBottom = '6px';
+                        li.style.display = 'flex';
+                        li.style.alignItems = 'center';
+                        li.style.gap = '8px';
+                        
+                        const spanLabel = document.createElement('span');
+                        spanLabel.style.fontWeight = 'bold';
+                        spanLabel.textContent = `(${o.id})`;
+                        li.appendChild(spanLabel);
+                        
+                        if (o.text) {
+                            const spanTxt = document.createElement('span');
+                            spanTxt.textContent = o.text;
+                            li.appendChild(spanTxt);
+                        }
+                        if (o.image) {
+                            const img = document.createElement('img');
+                            img.src = o.image;
+                            img.style.maxHeight = '45px';
+                            img.style.verticalAlign = 'middle';
+                            img.style.border = '1px solid #cbd5e1';
+                            img.style.borderRadius = '3px';
+                            li.appendChild(img);
+                        }
+                        optList.appendChild(li);
+                    });
+                    card.appendChild(optList);
+                }
             }
 
             elements.qpModalContent.appendChild(card);
@@ -951,21 +962,31 @@
                        '<span style="color: #64748b;">Not Attempted (0)</span>'}</span>
             `;
 
-            const stem = document.createElement('div');
-            stem.className = 'review-q-stem';
-            stem.textContent = q.question_text || "[Diagram problem]";
+            // Official Question Paper Card
+            if (q.card_image) {
+                const img = document.createElement('img');
+                img.src = q.card_image;
+                img.alt = `Question Paper Card ${q.id}`;
+                img.className = 'question-paper-card';
+                card.appendChild(img);
+            } else {
+                const stem = document.createElement('div');
+                stem.className = 'review-q-stem';
+                stem.textContent = q.question_text || "[Diagram problem]";
+                card.appendChild(stem);
 
-            // Stem Diagrams
-            const stemImgsBox = document.createElement('div');
-            if (q.images && q.images.length > 0) {
-                stemImgsBox.style.margin = '10px 0';
-                q.images.forEach(imgSrc => {
-                    const img = document.createElement('img');
-                    img.src = imgSrc;
-                    img.className = 'stem-diagram-img';
-                    img.style.maxHeight = '220px';
-                    stemImgsBox.appendChild(img);
-                });
+                // Stem Diagrams
+                if (q.images && q.images.length > 0) {
+                    const stemImgsBox = document.createElement('div');
+                    stemImgsBox.style.margin = '10px 0';
+                    q.images.forEach(imgSrc => {
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+                        img.className = 'stem-diagram-img';
+                        stemImgsBox.appendChild(img);
+                    });
+                    card.appendChild(stemImgsBox);
+                }
             }
 
             // Options List with Visual Feedback
