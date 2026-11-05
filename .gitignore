@@ -1,0 +1,27 @@
+# Raw PYQ Archive Folders and Large PDF Exports
+2022 term papers/
+Jan 2023/
+Jan 2024/
+Jan 25/
+May 2023/
+May 2025/
+May 24/
+Sept 2023/
+Sept 2024/
+Quiz 1- Improvement, Foundation, diploma, Degree/
+PDF_COM_*.pdf
+MLF.pdf
+
+# Python & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.tmp
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini

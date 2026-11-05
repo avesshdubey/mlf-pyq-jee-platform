@@ -1,0 +1,29 @@
+# Roo Code & APDL Guidelines - MLF PYQ Extraction & JEE CBT Platform
+
+## Operational Directives
+1. **Strict Tech Stack Compliance**:
+   - Python 3.13 standard libraries + PyMuPDF (`fitz`) and `reportlab`.
+   - Web interface: Vanilla HTML5, CSS3, modern ES6+ JavaScript. No unnecessary node_modules or CDN framework bloat.
+   - Keep files modular, maintainable, and well-documented.
+
+2. **UI/UX Design Standards (JEE CBT Interface)**:
+   - High fidelity to the actual NTA / JEE Main Computer Based Examination screen.
+   - Real color conventions:
+     - Gray (#e0e0e0 / #757575 text): Not Visited
+     - Red (#d9534f): Not Answered
+     - Green (#5cb85c): Answered
+     - Purple (#9c27b0): Marked for Review
+     - Purple with Green badge: Answered & Marked for Review
+   - Clean Indian exam styling: blue header band, candidate photo placeholder, official NTA-style question table, legible mathematical typography, responsive on desktop and tablets.
+   - NO generic modern SaaS gradients (purple-to-blue neon glow, dot grids, liquid glassmorphism).
+
+3. **Data Integrity**:
+   - Never invent or fabricate questions or options.
+   - Preserve exact formulas, matrices, definitions, and intervals.
+   - Every question must include its full options and metadata (source paper, marks, question type).
+
+4. **Ralph Loop Autonomous Cycle**:
+   - Work on ONE task at a time from PRD.md.
+   - Run verification tests after each task.
+   - Make an atomic git commit and auto-push to GitHub.
+   - Update `progress.txt` and mark off the item in `PRD.md`.
