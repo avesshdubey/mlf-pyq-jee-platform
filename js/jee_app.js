@@ -16,6 +16,7 @@
     let totalSeconds = 180 * 60; // 180 minutes
     let timerInterval = null;
     let isPaused = false;
+    let isExamSubmitted = false;
 
     // DOM Elements
     const elements = {
@@ -159,10 +160,9 @@
 
         buildSubtopicDropdown();
         applyFilter();
-        startTimer();
         bindEvents();
 
-        // Check authentication
+        // Check authentication & initialize UI/timer
         checkAuthAndSetupUI();
     }
 
@@ -188,15 +188,43 @@
             } else {
                 elements.btnToggleAdminView.style.display = 'none';
                 elements.btnToggleExamView.style.display = 'none';
-                elements.examInterfaceView.style.display = 'block';
+                if (!isExamSubmitted) {
+                    elements.examInterfaceView.style.display = 'block';
+                    elements.scorecardView.style.display = 'none';
+                }
                 elements.adminDashboardView.style.display = 'none';
             }
+
+            // Start timer only if exam is in progress
+            if (!isExamSubmitted && elements.examInterfaceView.style.display !== 'none') {
+                startTimer();
+            }
         } else {
-            // User is NOT signed in: trigger auth modal
+            // User is NOT signed in: trigger auth modal and stop timer
+            stopTimer();
             elements.authModal.style.display = 'flex';
             elements.btnToggleAdminView.style.display = 'none';
             elements.btnToggleExamView.style.display = 'none';
         }
+    }
+
+    function resetExamState() {
+        isExamSubmitted = false;
+        stopTimer();
+        responses = {};
+        allQuestions.forEach(q => {
+            responses[q.id] = {
+                status: 'NOT_VISITED',
+                selectedOptions: [],
+                value: ''
+            };
+        });
+        currentIndex = 0;
+        totalSeconds = 180 * 60;
+        isPaused = false;
+        updateTimerDisplay();
+        elements.countNotVisited.textContent = allQuestions.length;
+        applyFilter();
     }
 
     function showAuthAlert(msg, isSuccess = false) {
@@ -258,15 +286,30 @@
     function startTimer() {
         if (timerInterval) clearInterval(timerInterval);
         timerInterval = setInterval(() => {
+            const curUser = window.MLFAuth ? window.MLFAuth.getCurrentUser() : null;
+            const isExamActive = curUser && elements.examInterfaceView && elements.examInterfaceView.style.display !== 'none' && !isExamSubmitted;
+            
+            if (!isExamActive) {
+                return;
+            }
+
             if (!isPaused && totalSeconds > 0) {
                 totalSeconds--;
                 updateTimerDisplay();
             } else if (totalSeconds <= 0) {
                 clearInterval(timerInterval);
+                timerInterval = null;
                 alert("Time's up! Submitting examination automatically.");
                 submitExam();
             }
         }, 1000);
+    }
+
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
     }
 
     function updateTimerDisplay() {
@@ -777,11 +820,15 @@
             };
         });
 
+        // Set exam submitted and stop timer
+        isExamSubmitted = true;
+        stopTimer();
+
         // Record Test Attempt in Auth & Admin storage
         const accuracy = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
         if (window.MLFAuth) {
             window.MLFAuth.recordTestAttempt({
-                section: currentWeekFilter === 'ALL' ? 'All Weeks' : currentWeekFilter,
+                section: 'Full Syllabus (All Weeks)',
                 totalQuestions: allQuestions.length,
                 attempted: attemptedCount,
                 correct: correctCount,
@@ -1032,6 +1079,7 @@
         elements.btnLogout.addEventListener('click', () => {
             if (confirm("Sign out of MLF CBT portal?")) {
                 window.MLFAuth.logout();
+                resetExamState();
                 elements.authModal.style.display = 'flex';
                 elements.btnToggleAdminView.style.display = 'none';
                 elements.btnToggleExamView.style.display = 'none';
@@ -1057,14 +1105,22 @@
             }
         });
 
-        // Switch back to Exam View
+        // Switch back to Exam View / Scorecard View
         elements.btnToggleExamView.addEventListener('click', () => {
             elements.adminDashboardView.style.display = 'none';
-            elements.examInterfaceView.style.display = 'block';
             elements.btnToggleExamView.style.display = 'none';
-            const curUser = window.MLFAuth.getCurrentUser();
+            const curUser = window.MLFAuth ? window.MLFAuth.getCurrentUser() : null;
             if (curUser && curUser.role === 'admin') {
                 elements.btnToggleAdminView.style.display = 'inline-block';
+            }
+
+            if (isExamSubmitted) {
+                elements.scorecardView.style.display = 'block';
+                elements.examInterfaceView.style.display = 'none';
+            } else {
+                elements.examInterfaceView.style.display = 'block';
+                elements.scorecardView.style.display = 'none';
+                startTimer();
             }
         });
     }

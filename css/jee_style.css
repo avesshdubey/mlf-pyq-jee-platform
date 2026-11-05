@@ -1033,6 +1033,8 @@ body {
 
 .auth-body {
     padding: 24px;
+    max-height: calc(85vh - 120px);
+    overflow-y: auto;
 }
 
 .auth-alert {
