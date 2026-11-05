@@ -1,4 +1,4 @@
-# Raw PYQ Archive Folders and Large PDF Exports
+# Raw PYQ Archive Folders and Raw Downloads
 2022 term papers/
 Jan 2023/
 Jan 2024/
@@ -9,8 +9,11 @@ May 24/
 Sept 2023/
 Sept 2024/
 Quiz 1- Improvement, Foundation, diploma, Degree/
-PDF_COM_*.pdf
-MLF.pdf
+*.zip
+
+# Ignore raw exam papers in root
+/*.pdf
+!/mlf_app/mlf_questions_categorized.pdf
 
 # Python & Cache
 __pycache__/

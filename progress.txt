@@ -104,3 +104,21 @@ Iteration 8: Task 9 Completed - 100% Visual Fidelity via High-Resolution Questio
 - Verified test suite (`tests/test_platform.py`): 4 tests passed (0.121s).
 - Atomic Git commit and auto-push to GitHub remote `origin main`.
 --------------------------------------------------------------------------------
+
+Iteration 9: Task 10 Completed - Isolate Application & Categorized PDF into Dedicated mlf_app Folder
+- Cleaned root workspace for upcoming courses and tasks by moving all MLF application assets, code, data, tests, scripts, and the categorized PDF into `mlf_app/`:
+  * `mlf_app/index.html` (Full JEE CBT test interface)
+  * `mlf_app/css/` (Stylesheet with NTA styling)
+  * `mlf_app/js/` (`jee_app.js`, `auth.js`, `admin.js`)
+  * `mlf_app/data/` (`questions.json`, `questions_data.js`, `stats.json`)
+  * `mlf_app/assets/` (`q_cards/`, `q_images/`)
+  * `mlf_app/scripts/` (`build_exact_dataset.py`, `generate_pdf.py`, etc.)
+  * `mlf_app/tests/` (`test_platform.py`)
+  * `mlf_app/mlf_questions_categorized.pdf` (Categorized 40MB PDF question bank)
+  * `mlf_app/extractor.py` (Multi-paper scanner)
+- Created root gateway `index.html` with instant redirect (`<meta http-equiv="refresh">` + `window.location.replace("mlf_app/")`) preserving GitHub Pages public deployment URL (https://avesshdubey.github.io/mlf-pyq-jee-platform/).
+- Updated `.gitignore` to ignore raw exam archives (`*.zip`) and root exam PDFs so future subject files don't clutter git.
+- Updated path resolution in extraction scripts (`extractor.py`, `build_exact_dataset.py`) to exclude `mlf_app` during paper discovery.
+- Executed and passed automated test suite (`python mlf_app/tests/test_platform.py`, 4 tests OK).
+- Staged atomic git commit and auto-pushed upstream to GitHub `origin main`.
+--------------------------------------------------------------------------------

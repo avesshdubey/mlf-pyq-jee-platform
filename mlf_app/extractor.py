@@ -7,9 +7,10 @@ import hashlib
 import asyncio
 from pathlib import Path
 
-BASE_DIR = r"C:\Users\avesh\Desktop\PYQS"
-DATA_DIR = os.path.join(BASE_DIR, "data")
-ASSETS_DIR = os.path.join(BASE_DIR, "assets", "q_images")
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(APP_DIR)
+DATA_DIR = os.path.join(APP_DIR, "data")
+ASSETS_DIR = os.path.join(APP_DIR, "assets", "q_images")
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(ASSETS_DIR, exist_ok=True)
 
@@ -49,7 +50,7 @@ def save_image_bytes(image_bytes, ext="png"):
     img_hash = hashlib.md5(image_bytes).hexdigest()
     filename = f"qimg_{img_hash[:12]}.{ext}"
     rel_path = f"assets/q_images/{filename}"
-    full_path = os.path.join(BASE_DIR, "assets", "q_images", filename)
+    full_path = os.path.join(ASSETS_DIR, filename)
     if not os.path.exists(full_path):
         with open(full_path, "wb") as f:
             f.write(image_bytes)

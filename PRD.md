@@ -59,3 +59,10 @@
   - Regenerated `mlf_questions_categorized.pdf` (40.47 MB, 677 unique questions) embedding exact question paper cards and official answer keys.
   - Updated web application (`index.html`, `js/jee_app.js`, `css/jee_style.css`) with clean card-first presentation across main examination view, question paper modal, and post-submission scorecard review.
   - Passed all verification test suites (`tests/test_platform.py`).
+
+- [x] **Task 10: Isolate Application & Categorized PDF into Dedicated `mlf_app` Folder with Root Gateway Redirect**
+  - Moved all MLF app components (`index.html`, `css/`, `js/`, `data/`, `assets/`, `scripts/`, `tests/`, `mlf_questions_categorized.pdf`, `extractor.py`) into isolated directory `mlf_app/`.
+  - Created root gateway `index.html` with instant redirection (`<meta http-equiv="refresh">` and `window.location.replace("mlf_app/")`) preserving GitHub Pages public deployment URL (`https://avesshdubey.github.io/mlf-pyq-jee-platform/`).
+  - Updated `.gitignore` to ignore raw exam archives (`*.zip`) and root exam PDFs so the root workspace remains clean for other subjects.
+  - Updated extraction scripts to exclude `mlf_app/` during any future paper scans.
+  - Verified test suite passes (`python mlf_app/tests/test_platform.py`).

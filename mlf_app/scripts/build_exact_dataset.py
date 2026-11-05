@@ -6,10 +6,11 @@ import glob
 import hashlib
 from PIL import Image
 
-BASE_DIR = r"C:\Users\avesh\Desktop\PYQS"
-DATA_DIR = os.path.join(BASE_DIR, "data")
-ASSETS_DIR = os.path.join(BASE_DIR, "assets", "q_images")
-CARDS_DIR = os.path.join(BASE_DIR, "assets", "q_cards")
+APP_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(APP_DIR)
+DATA_DIR = os.path.join(APP_DIR, "data")
+ASSETS_DIR = os.path.join(APP_DIR, "assets", "q_images")
+CARDS_DIR = os.path.join(APP_DIR, "assets", "q_cards")
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(ASSETS_DIR, exist_ok=True)
 os.makedirs(CARDS_DIR, exist_ok=True)
@@ -214,7 +215,7 @@ all_files = sorted(glob.glob(os.path.join(BASE_DIR, "**", "*.pdf"), recursive=Tr
 
 paper_list = []
 for f in all_files:
-    if "PDF_COM" in f or "mlf_questions_categorized" in f:
+    if "PDF_COM" in f or "mlf_questions_categorized" in f or "mlf_app" in f:
         continue
     try:
         doc = fitz.open(f)
