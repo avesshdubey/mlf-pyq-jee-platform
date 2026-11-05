@@ -1,0 +1,404 @@
+
+<<<PAGE_BREAK_126>>>
+6406532467941. 
+ 
+ 
+ 
+ 
+Question Number : 133 Question Id : 640653737405 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 3
+Question Label : Multiple Choice Question
+Match the URLs in column A with their correct rendered output in Column B with the correct 
+app.py code for the flask application given in the previous question. 
+ 
+Options :
+6406532467942. 
+ 1-b, 2-d, 3-a, 4-c
+6406532467943. 
+ 1-b, 2-a, 3-c, 4-d
+6406532467944. 
+ 1-d, 2-b, 3-a, 4- c
+6406532467945. 
+ 1-d, 2-a, 3-c, 4-b
+ 
+ 
+ 
+ 
+MLF
+Section Id :
+64065351357
+Section Number :
+9
+Section type :
+Online
+Mandatory or Optional :
+Mandatory
+Number of Questions :
+11
+
+<<<PAGE_BREAK_127>>>
+Number of Questions to be attempted :
+11
+Section Marks :
+40
+Display Number Panel :
+Yes
+Section Negative Marks :
+0
+Group All Questions :
+No
+Enable Mark as Answered Mark for Review and 
+Clear Response :
+Yes
+Maximum Instruction Time :
+0
+Sub-Section Number :
+1
+Sub-Section Id :
+640653107630
+Question Shuffling Allowed :
+No
+Is Section Default? :
+null
+ 
+ 
+Question Number : 134 Question Id : 640653737411 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 0
+Question Label : Multiple Choice Question
+THIS IS QUESTION PAPER FOR THE SUBJECT "DIPLOMA LEVEL : MACHINE LEARNING 
+FOUNDATIONS (COMPUTER BASED EXAM)" 
+ 
+ARE YOU SURE YOU HAVE TO WRITE EXAM FOR THIS SUBJECT? 
+CROSS CHECK YOUR HALL TICKET TO CONFIRM THE SUBJECTS TO BE WRITTEN. 
+ 
+(IF IT IS NOT THE CORRECT SUBJECT, PLS CHECK THE SECTION AT THE TOP FOR THE SUBJECTS 
+REGISTERED BY YOU)
+Options :
+6406532467966. 
+ YES
+6406532467967. 
+ NO
+Sub-Section Number :
+2
+Sub-Section Id :
+640653107631
+
+<<<PAGE_BREAK_128>>>
+Question Shuffling Allowed :
+No
+Is Section Default? :
+null
+ 
+ 
+Question Id : 640653737412 Question Type : COMPREHENSION Sub Question Shuffling 
+Allowed : No Group Comprehension Questions : No Question Pattern Type : NonMatrix 
+Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction Time : 0
+Question Numbers : (135 to 136)
+Question Label : Comprehension
+Sub questions
+ 
+Question Number : 135 Question Id : 640653737413 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 4
+Question Label : Multiple Choice Question
+Find the row space of matrix A.
+Options :
+6406532467968. 
+ 
+ 
+ 
+6406532467969. 
+ 
+ 
+ 
+6406532467970. 
+ 
+ 
+ 
+
+<<<PAGE_BREAK_129>>>
+6406532467971. 
+ 
+ 
+ 
+ 
+Question Number : 136 Question Id : 640653737414 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 3
+Question Label : Multiple Choice Question
+Find the column space of matrix A.
+Options :
+6406532467972. 
+ 
+ 
+ 
+6406532467973. 
+ 
+ 
+ 
+6406532467974. 
+ 
+ 
+ 
+6406532467975. 
+ 
+ 
+ 
+Sub-Section Number :
+3
+Sub-Section Id :
+640653107632
+Question Shuffling Allowed :
+Yes
+Is Section Default? :
+null
+ 
+ 
+
+<<<PAGE_BREAK_130>>>
+Question Number : 137 Question Id : 640653737417 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 3
+Question Label : Multiple Choice Question
+Options :
+6406532467984. 
+ 
+ 
+ 
+6406532467985. 
+ 
+ 
+ 
+6406532467986. 
+ 
+ 
+ 
+6406532467987. 
+ 
+ 
+ 
+ 
+ 
+Question Number : 138 Question Id : 640653737423 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 3
+Question Label : Multiple Choice Question
+Options :
+6406532468005. 
+ 2.1
+6406532468006. 
+ 2.003125
+
+<<<PAGE_BREAK_131>>>
+6406532468007. 
+ 2.031
+6406532468008. 
+ 1.9968
+Sub-Section Number :
+4
+Sub-Section Id :
+640653107633
+Question Shuffling Allowed :
+Yes
+Is Section Default? :
+null
+ 
+ 
+Question Number : 139 Question Id : 640653737418 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 4
+Question Label : Multiple Choice Question
+Find the best fit line for the dataset given below using least squares method. 
+ 
+Options :
+6406532467988. 
+ 
+ 
+ 
+6406532467989. 
+ 
+ 
+ 
+6406532467990. 
+ 
+ 
+ 
+6406532467991. 
+ 
+ 
+ 
+ 
+ 
+Question Number : 140 Question Id : 640653737419 Question Type : MCQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+
+<<<PAGE_BREAK_132>>>
+Correct Marks : 4
+Question Label : Multiple Choice Question
+Options :
+6406532467992. 
+ 
+ 
+ 
+6406532467993. 
+ 
+ 
+ 
+6406532467994. 
+ 
+ 
+ 
+6406532467995. 
+ 
+ 
+ 
+Sub-Section Number :
+5
+Sub-Section Id :
+640653107634
+Question Shuffling Allowed :
+Yes
+Is Section Default? :
+null
+ 
+ 
+Question Number : 141 Question Id : 640653737421 Question Type : MSQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 3 Max. Selectable Options : 0
+Question Label : Multiple Select Question
+Which of the following is/are supervised learning task(s)?
+Options :
+6406532467997. 
+ Predicting future sales of a product based on the past sales data.
+
+<<<PAGE_BREAK_133>>>
+6406532467998. 
+ Reducing the dimensionality of images while retaining essential features, 
+enabling efficient storage and transmission.
+6406532467999. 
+ Recognizing and interpreting handwritten characters or words, often used in 
+digit recognition or reading handwritten text.
+6406532468000. 
+ Categorizing text documents into predefined classes, such as spam or non-
+spam emails.
+Sub-Section Number :
+6
+Sub-Section Id :
+640653107635
+Question Shuffling Allowed :
+Yes
+Is Section Default? :
+null
+ 
+ 
+Question Number : 142 Question Id : 640653737415 Question Type : MSQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 4 Max. Selectable Options : 0
+Question Label : Multiple Select Question
+Options :
+6406532467976. 
+ Eigenvalues of A are 1, 2, and 3.
+6406532467977. 
+ Eigenvalues of A are 1, 2, and 2.
+6406532467978. 
+ Eigenvalues of B are 2, 20, and 78.
+6406532467979. 
+ Matrix B is diagonalizable.
+ 
+ 
+Question Number : 143 Question Id : 640653737416 Question Type : MSQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+
+<<<PAGE_BREAK_134>>>
+Correct Marks : 4 Max. Selectable Options : 0
+Question Label : Multiple Select Question
+Let A and B be symmetric matrices such that AB = BA. Then which of the following options is/are 
+true?
+Options :
+6406532467980. 
+ AB is a symmetric matrix.
+6406532467981. 
+ AB is orthogonally diagonalizable.
+6406532467982. 
+ BA has real eigenvalues.
+6406532467983. 
+ AB is not a symmetric matrix.
+ 
+ 
+Question Number : 144 Question Id : 640653737422 Question Type : MSQ Is Question 
+Mandatory : No Calculator : None Response Time : N.A Think Time : N.A Minimum Instruction 
+Time : 0
+Correct Marks : 4 Max. Selectable Options : 0
+Question Label : Multiple Select Question
+Options :
+6406532468001. 
+ 
+ 
+ 
+6406532468002. 
+ 
+ 
+ 
+6406532468003. 
+ 
+ 
+ 
+6406532468004. 
+ 
+ 
+ 
+Sub-Section Number :
+7
+Sub-Section Id :
+640653107636
+
+<<<PAGE_BREAK_135>>>
+Question Shuffling Allowed :
+Yes
+Is Section Default? :
+null
+ 
+ 
+Question Number : 145 Question Id : 640653737420 Question Type : SA Calculator : None 
+Response Time : N.A Think Time : N.A Minimum Instruction Time : 0
+Correct Marks : 4
+Question Label : Short Answer Question
+Response Type : Numeric
+Evaluation Required For SA : Yes
+Show Word Count : Yes
+Answers Type : Range
+Text Areas : PlainText
+Possible Answers :
+3.12 to 3.20
+ 
+ 
+ 
+ 
+Java
+Section Id :
+64065351358
+Section Number :
+10
+Section type :
+Online
+Mandatory or Optional :
+Mandatory
+Number of Questions :
+16
+Number of Questions to be attempted :
+16
+Section Marks :
+100

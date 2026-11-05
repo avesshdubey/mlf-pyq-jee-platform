@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE CBT Mock Test - Machine Learning Foundations (MLF)</title>
+    <link rel="stylesheet" href="css/jee_style.css">
+</head>
+<body>
+
+    <!-- TOP HEADER BAR (NTA / JEE Style) -->
+    <header class="jee-header">
+        <div class="header-left">
+            <div class="iit-logo-badge">IITM</div>
+            <div class="exam-title-block">
+                <h1>INDIAN INSTITUTE OF TECHNOLOGY MADRAS — BS DEGREE PROGRAMME</h1>
+                <h2>MACHINE LEARNING FOUNDATIONS (MLF) — COMPREHENSIVE PAST YEAR QUESTION BANK</h2>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="candidate-card">
+                <div class="candidate-avatar">
+                    <svg viewBox="0 0 24 24" width="36" height="36" fill="#555">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <div class="candidate-info">
+                    <span class="cand-name">Candidate: <strong>Student (Diploma Level)</strong></span>
+                    <span class="cand-roll">Roll No: <strong>24DSXXXXXX</strong></span>
+                    <span class="cand-sub">Subject: <strong>Machine Learning Foundations</strong></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SUB-BAR: Section Selector & Timer -->
+    <div class="sub-bar">
+        <div class="sections-nav" id="sectionTabs">
+            <button class="sec-tab active" data-week="ALL">All Weeks (210)</button>
+            <button class="sec-tab" data-week="Week 1 - ML Foundations">Week 1: ML Foundations (95)</button>
+            <button class="sec-tab" data-week="Week 2 - Mathematical Foundations">Week 2: Math Foundations (22)</button>
+            <button class="sec-tab" data-week="Week 3 - Linear Algebra & Subspaces">Week 3: Linear Algebra (63)</button>
+            <button class="sec-tab" data-week="Week 4 - Regression & Eigenvalues">Week 4: Regression & Eigen (30)</button>
+        </div>
+        <div class="timer-box">
+            <span class="timer-label">Time Remaining:</span>
+            <span class="timer-clock" id="timerDisplay">180:00</span>
+            <button class="timer-btn" id="pauseTimerBtn" title="Pause / Resume Timer">⏸</button>
+        </div>
+    </div>
+
+    <!-- MAIN EXAM CONTAINER -->
+    <main class="exam-container" id="examMain">
+        
+        <!-- LEFT COLUMN: Question Viewing & Input Area -->
+        <section class="question-column">
+            
+            <!-- Question Top Meta Bar -->
+            <div class="q-meta-bar">
+                <div class="q-number-title">
+                    <span id="currentQDisplayNum">Question No. 1</span>
+                    <span class="q-type-badge" id="currentQTypeBadge">Multiple Choice Question</span>
+                    <span class="q-subtopic-tag" id="currentQSubtopic">Subtopic</span>
+                </div>
+                <div class="q-marking-scheme">
+                    <span class="mark-pos" id="markPosDisplay">Marks for correct: +3</span>
+                    <span class="mark-neg" id="markNegDisplay">Negative marks: -1</span>
+                    <button class="action-link-btn" id="viewQPBtn">Question Paper</button>
+                    <button class="action-link-btn" id="viewInstBtn">Instructions</button>
+                </div>
+            </div>
+
+            <!-- Scrollable Question Body -->
+            <div class="q-scroll-body" id="qScrollBody">
+                
+                <!-- Question Source Info -->
+                <div class="q-source-banner" id="qSourceBanner">
+                    Source Papers: <span id="qSourceList">Loading...</span>
+                </div>
+
+                <!-- Question Stem Text -->
+                <div class="q-stem-text" id="qStemText">
+                    Loading question text...
+                </div>
+
+                <!-- Question Diagram / Formula Image -->
+                <div class="q-stem-image-box" id="qStemImageBox" style="display: none;">
+                    <img id="qStemImage" src="" alt="Question Diagram / Matrix">
+                </div>
+
+                <!-- Answer Input Area (Dynamic for MCQ, MSQ, SA) -->
+                <div class="q-input-container" id="qInputContainer">
+                    <!-- Injected by JavaScript -->
+                </div>
+
+            </div>
+
+            <!-- Bottom Control Bar -->
+            <footer class="q-footer-bar">
+                <div class="footer-left">
+                    <button class="btn btn-purple" id="btnMarkReviewNext">Mark for Review & Next</button>
+                    <button class="btn btn-default" id="btnClearResponse">Clear Response</button>
+                </div>
+                <div class="footer-right">
+                    <button class="btn btn-default" id="btnPrevious">&laquo; Previous</button>
+                    <button class="btn btn-green" id="btnSaveNext">Save & Next &raquo;</button>
+                </div>
+            </footer>
+
+        </section>
+
+        <!-- RIGHT COLUMN: Question Palette & Navigation -->
+        <aside class="palette-column">
+            
+            <!-- JEE Palette Legend -->
+            <div class="palette-legend">
+                <div class="legend-row">
+                    <div class="legend-item"><span class="badge badge-answered" id="countAnswered">0</span> Answered</div>
+                    <div class="legend-item"><span class="badge badge-not-answered" id="countNotAnswered">0</span> Not Answered</div>
+                </div>
+                <div class="legend-row">
+                    <div class="legend-item"><span class="badge badge-not-visited" id="countNotVisited">210</span> Not Visited</div>
+                    <div class="legend-item"><span class="badge badge-marked" id="countMarked">0</span> Marked for Review</div>
+                </div>
+                <div class="legend-row full">
+                    <div class="legend-item"><span class="badge badge-marked-answered" id="countMarkedAnswered">0</span> Answered & Marked for Review (considered for evaluation)</div>
+                </div>
+            </div>
+
+            <!-- Active Section Info & Filter -->
+            <div class="palette-subfilter">
+                <label for="subtopicFilterSelect">Filter Subtopic:</label>
+                <select id="subtopicFilterSelect">
+                    <option value="ALL">All Subtopics</option>
+                </select>
+            </div>
+
+            <!-- Grid Header -->
+            <div class="palette-header">
+                <h3>Question Palette</h3>
+                <span class="active-sec-label" id="paletteSecLabel">All Questions (210)</span>
+            </div>
+
+            <!-- Scrollable Grid of Numbers -->
+            <div class="palette-grid-scroll">
+                <div class="palette-grid" id="paletteGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Submit Test Button -->
+            <div class="palette-footer">
+                <button class="btn btn-submit-test" id="btnSubmitTest">Submit Test</button>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- MODAL 1: QUESTION PAPER OVERVIEW -->
+    <div class="modal-overlay" id="qpModal" style="display: none;">
+        <div class="modal-box qp-modal-box">
+            <div class="modal-header">
+                <h2>Question Paper View (All Questions)</h2>
+                <button class="modal-close" id="closeQpModal">&times;</button>
+            </div>
+            <div class="modal-body qp-modal-body" id="qpModalContent">
+                <!-- Injected by JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" id="closeQpModalBtn">Close Question Paper</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: INSTRUCTIONS -->
+    <div class="modal-overlay" id="instModal" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>CBT Examination Instructions</h2>
+                <button class="modal-close" id="closeInstModal">&times;</button>
+            </div>
+            <div class="modal-body inst-modal-body">
+                <h4>General Instructions:</h4>
+                <ol>
+                    <li>Total duration of examination is 180 minutes.</li>
+                    <li>The clock will be set at the server. The countdown timer in the top right corner will display the remaining time available for you to complete the examination.</li>
+                    <li>The Question Palette displayed on the right side of screen will show the status of each question using one of the following symbols:
+                        <ul>
+                            <li><span class="badge badge-not-visited">1</span> You have not visited the question yet.</li>
+                            <li><span class="badge badge-not-answered">2</span> You have not answered the question.</li>
+                            <li><span class="badge badge-answered">3</span> You have answered the question.</li>
+                            <li><span class="badge badge-marked">4</span> You have NOT answered the question, but have marked the question for review.</li>
+                            <li><span class="badge badge-marked-answered">5</span> The question(s) "Answered and Marked for Review" will be considered for evaluation.</li>
+                        </ul>
+                    </li>
+                    <li>Navigating to a Question: Click on the question number in the Question Palette to go to that question directly.</li>
+                    <li>Answering a Question:
+                        <ul>
+                            <li>For Multiple Choice Type Question: To select your answer, click on the button of one of the options.</li>
+                            <li>To deselect your chosen answer, click on the <strong>Clear Response</strong> button.</li>
+                            <li>To change your chosen answer, click on the button of another option.</li>
+                            <li>To save your answer, you MUST click on the <strong>Save & Next</strong> button.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" id="closeInstModalBtn">Back to Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: CONFIRM SUBMISSION -->
+    <div class="modal-overlay" id="submitModal" style="display: none;">
+        <div class="modal-box submit-summary-box">
+            <div class="modal-header">
+                <h2>Exam Summary & Submission</h2>
+                <button class="modal-close" id="closeSubmitModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to submit the examination? Below is your response summary:</p>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Section / Week</th>
+                            <th>Total</th>
+                            <th>Answered</th>
+                            <th>Not Answered</th>
+                            <th>Marked for Review</th>
+                            <th>Not Visited</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submitSummaryTbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+                <div class="submit-warning">
+                    ⚠️ Once submitted, you cannot change your answers. Do you wish to proceed?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" id="cancelSubmitBtn">Return to Test</button>
+                <button class="btn btn-submit-final" id="confirmSubmitBtn">Confirm & Submit Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 2: FINAL SCORECARD & DETAILED REVIEW (Shown after submit) -->
+    <section class="scorecard-container" id="scorecardView" style="display: none;">
+        <div class="scorecard-header">
+            <div class="scorecard-title">
+                <h1>EXAMINATION RESULT & COMPREHENSIVE PERFORMANCE AUDIT</h1>
+                <p>Course: Machine Learning Foundations (MLF) | IIT Madras Past Year Questions</p>
+            </div>
+            <button class="btn btn-default" id="btnRestartTest">Take Test Again</button>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="scorecard-metrics">
+            <div class="metric-card">
+                <span class="m-val" id="resTotalScore">0</span>
+                <span class="m-lbl">Total Score Obtained</span>
+            </div>
+            <div class="metric-card">
+                <span class="m-val" id="resMaxMarks">630</span>
+                <span class="m-lbl">Maximum Marks</span>
+            </div>
+            <div class="metric-card">
+                <span class="m-val" id="resAccuracy">0%</span>
+                <span class="m-lbl">Accuracy</span>
+            </div>
+            <div class="metric-card">
+                <span class="m-val" id="resAttempted">0 / 210</span>
+                <span class="m-lbl">Questions Attempted</span>
+            </div>
+        </div>
+
+        <!-- Category Performance Table -->
+        <div class="scorecard-section">
+            <h3>Syllabus Category Performance Breakdown</h3>
+            <table class="category-perf-table">
+                <thead>
+                    <tr>
+                        <th>Week / Category</th>
+                        <th>Subtopic</th>
+                        <th>Questions</th>
+                        <th>Attempted</th>
+                        <th>Correct</th>
+                        <th>Incorrect</th>
+                        <th>Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryPerfTbody">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Detailed Solutions Review Accordion -->
+        <div class="scorecard-section">
+            <h3>Detailed Question-by-Question Solution & Explanations Review</h3>
+            <div class="review-filter-bar">
+                <button class="review-filter-tab active" data-filter="ALL">All Questions</button>
+                <button class="review-filter-tab" data-filter="CORRECT">Correct</button>
+                <button class="review-filter-tab" data-filter="INCORRECT">Incorrect</button>
+                <button class="review-filter-tab" data-filter="UNATTEMPTED">Unattempted</button>
+            </div>
+            <div class="review-q-list" id="reviewQuestionsList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Embedded Scripts -->
+    <script src="data/questions_data.js"></script>
+    <script src="js/jee_app.js"></script>
+</body>
+</html>

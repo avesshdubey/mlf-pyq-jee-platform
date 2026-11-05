@@ -1,0 +1,32 @@
+{
+  "total_unique_questions": 210,
+  "total_raw_scanned": 683,
+  "breakdown": {
+    "Week 1 - ML Foundations": {
+      "Data & Models": 2,
+      "ML Concepts": 83,
+      "ML Tasks": 5,
+      "Regression Basics": 2,
+      "Types of Learning": 3
+    },
+    "Week 2 - Mathematical Foundations": {
+      "Derivatives": 9,
+      "Functions": 6,
+      "Metric Spaces": 6,
+      "Sets & Number Systems": 1
+    },
+    "Week 3 - Linear Algebra & Subspaces": {
+      "Dot Product & Norms": 2,
+      "Matrices": 48,
+      "Span & Basis": 1,
+      "Subspaces": 11,
+      "Vectors": 1
+    },
+    "Week 4 - Regression & Eigenvalues": {
+      "Eigenvalues": 21,
+      "Eigenvectors": 3,
+      "Error Calculations": 2,
+      "Least Squares": 4
+    }
+  }
+}

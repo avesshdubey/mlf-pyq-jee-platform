@@ -12,3 +12,42 @@ Iteration 1: Task 1 Completed - Git & 4-Tier Setup Baseline
 - GitHub private repo created: https://github.com/avesshdubey/mlf-pyq-jee-platform
 - Upstream tracking and auto-push enabled.
 --------------------------------------------------------------------------------
+Iteration 2: Task 2 & 3 Completed - Extraction, Deduplication & Classification
+- Scanned all 65 PDF files across all subdirectories.
+- Identified 43 question papers containing MLF sections + 47-page scanned compilation.
+- Extracted 683 raw question instances verbatim with question numbers, IDs, options, diagrams, marks, and answer keys.
+- Deduplication Engine identified 210 unique questions (word-by-word fidelity).
+- Classified into official 4-week syllabus taxonomy:
+  * Week 1 - ML Foundations: 95 questions
+  * Week 2 - Mathematical Foundations: 22 questions
+  * Week 3 - Linear Algebra & Subspaces: 63 questions
+  * Week 4 - Regression & Eigenvalues: 30 questions
+- Structured dataset written to `data/questions.json` and `data/questions_data.js`.
+--------------------------------------------------------------------------------
+Iteration 3: Task 4 Completed - Categorized PDF Generation
+- Built `scripts/generate_pdf.py` using ReportLab.
+- Optimized 513 assets from 615 MB down to 6.3 MB (JPEG 80, 800px max width).
+- Generated publication-quality `mlf_questions_categorized.pdf` (67 pages, 1.9 MB).
+- Organized by Week and Subtopic with table of contents, question headers, diagrams, clean option tables, and solution keys.
+--------------------------------------------------------------------------------
+Iteration 4: Task 5 Completed - Interactive JEE Exam Test CBT Web Application
+- Built `index.html`, `css/jee_style.css`, and `js/jee_app.js`.
+- Faithful emulation of official NTA / JEE Main Computer Based Examination interface.
+- 5 standard JEE status badges: Not Visited, Not Answered, Answered, Marked for Review, Answered & Marked for Review.
+- Section/Week tabs, subtopic filter, ticking 180-minute countdown timer with pause/resume.
+- Virtual numeric keypad for Short Answer / NAT questions.
+- Question Paper modal and Submit modal with confirmation.
+- Comprehensive Performance Scorecard: total marks, accuracy %, category breakdown, and detailed question-by-question review with explanations.
+--------------------------------------------------------------------------------
+Iteration 5: Task 6 Completed - Quality Assurance, CodeRabbit Audit & Remote Push
+- Ran automated test suite `tests/test_platform.py` (4 tests passed in 0.008s).
+- Ran CodeRabbit CLI review (`coderabbit review --agent`).
+- Resolved all CodeRabbit findings:
+  * Word-boundary regex matching in classifier.
+  * XML character escaping in ReportLab PDF generator.
+  * Negative marks set to 0 to match official MLF syllabus.
+  * DOM API textContent used in review answer box to prevent XSS.
+  * Dynamic week counts and roll number placeholder in UI.
+  * Portable test base directory.
+- Pushed all deliverables to remote GitHub repository.
+--------------------------------------------------------------------------------
