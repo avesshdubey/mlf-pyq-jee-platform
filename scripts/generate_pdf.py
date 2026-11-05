@@ -245,13 +245,12 @@ def build_pdf():
                 safe_stem = stem.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
                 card_elements.append(Paragraph(safe_stem, q_stem_style))
                 
-                # Stem Image (Diagram/Matrix)
-                for img_rel in q.get('images', [])[:1]:
+                # Stem Images (Diagrams / Matrices / Plots)
+                for img_rel in q.get('images', [])[:2]:
                     img_full = os.path.join(BASE_DIR, img_rel)
                     if os.path.exists(img_full):
                         try:
-                            # Constrain image size
-                            card_elements.append(Image(img_full, width=280, height=80, kind='proportional'))
+                            card_elements.append(Image(img_full, width=320, height=95, kind='proportional'))
                             card_elements.append(Spacer(1, 4))
                         except Exception:
                             pass
@@ -262,12 +261,26 @@ def build_pdf():
                     opt_rows = []
                     for opt in opts:
                         opt_id = opt.get('id', '')
-                        opt_txt = opt.get('text', '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-                        if not opt_txt:
-                            opt_txt = "[Mathematical formula option]"
+                        opt_txt = opt.get('text', '').strip()
+                        opt_img = opt.get('image')
+                        
+                        cell_items = []
+                        if opt_txt:
+                            safe_txt = opt_txt.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+                            cell_items.append(Paragraph(safe_txt, option_style))
+                        if opt_img:
+                            img_path = os.path.join(BASE_DIR, opt_img)
+                            if os.path.exists(img_path):
+                                try:
+                                    cell_items.append(Image(img_path, width=160, height=32, kind='proportional'))
+                                except Exception:
+                                    pass
+                        if not cell_items:
+                            cell_items.append(Paragraph(f"[Option ({opt_id})]", option_style))
+                            
                         opt_rows.append([
                             Paragraph(f"<b>({opt_id})</b>", option_style),
-                            Paragraph(opt_txt, option_style)
+                            cell_items if len(cell_items) > 1 else cell_items[0]
                         ])
                     opt_table = Table(opt_rows, colWidths=[24, 460])
                     opt_table.setStyle(TableStyle([
@@ -275,6 +288,7 @@ def build_pdf():
                         ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
                         ('LEFTPADDING', (0, 0), (-1, -1), 0),
                         ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+                        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                     ]))
                     card_elements.append(opt_table)
                     

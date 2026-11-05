@@ -70,3 +70,19 @@ Iteration 6: Task 7 Completed - Authentication Gate, Admin Control Panel, CodeRa
 - Configured and deployed GitHub Pages with `.nojekyll` bypass.
 - Verified live website response (HTTP 200 OK) at https://avesshdubey.github.io/mlf-pyq-jee-platform/
 --------------------------------------------------------------------------------
+Iteration 7: Task 8 Completed - Precision Spatial Extraction & Complete Option/Stem Image Rendering
+- Implemented precision spatial extraction pipeline (`scripts/run_precision_extraction.py`):
+  * Unified continuous coordinate space across pages (`global_y = pno * 1000.0 + y`).
+  * Matched mathematical formula images and green checkmark icons to options within ±35pt vertical proximity.
+  * Preserved 279 option formula images and 396 option texts without truncation.
+  * Preserved 165 question stem images (comprehension dataset plots, matrices, and function equations).
+  * Applied 2x upscaled WinRT OCR on image-only problem statements (e.g. octal representation, regression formulas) to recover text while preserving original images.
+  * Cross-merged answers from multiple paper slots to establish verified correct keys for 115 questions.
+- Updated ReportLab generator (`scripts/generate_pdf.py`) to embed option formula images and multiple stem diagrams into categorized table cells.
+- Regenerated publication-quality `mlf_questions_categorized.pdf` (75 pages, 5.5 MB).
+- Updated web test application (`js/jee_app.js`, `css/jee_style.css`):
+  * Question View: renders multiple stem diagrams, option text, and option formula images.
+  * Question Paper Modal: displays all diagrams, option texts, and formula images in full paper view.
+  * Solution Review: displays stem diagrams, candidate response, official correct answer, and full options with formula images and visual correctness indicators.
+- Verified test suite (`tests/test_platform.py`): all 4 tests passed (0.010s).
+--------------------------------------------------------------------------------

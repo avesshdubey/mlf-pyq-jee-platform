@@ -45,3 +45,9 @@
   - Make GitHub repository public (`avesshdubey/mlf-pyq-jee-platform`).
   - Deploy application to GitHub Pages (`https://avesshdubey.github.io/mlf-pyq-jee-platform/`).
   - Pass CodeRabbit review audit and all automated unit tests.
+
+- [x] **Task 8: Precision Question & Option Extraction with Exact Images & Formulas**
+  - Implement spatial coordinate grouping (`scripts/run_precision_extraction.py`) to extract option formula images, stem plots, and icons.
+  - Eliminate blank option text by linking 279 formula images and 396 option texts.
+  - Enhance `generate_pdf.py` to embed option images inside table rows.
+  - Enhance `js/jee_app.js` and `css/jee_style.css` to render option images and multiple stem diagrams across exam view, question paper modal, and scorecard review.

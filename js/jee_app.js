@@ -365,9 +365,16 @@
         // Stem Text
         elements.qStemText.textContent = q.question_text || "[Refer to diagram / matrix statement below]";
 
-        // Stem Image (Diagram / Formula / Table)
+        // Stem Images (Diagrams / Formulas / Tables)
+        elements.qStemImageBox.innerHTML = '';
         if (q.images && q.images.length > 0) {
-            elements.qStemImage.src = q.images[0];
+            q.images.forEach(imgSrc => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = "Question Problem Diagram / Formula";
+                img.className = "stem-diagram-img";
+                elements.qStemImageBox.appendChild(img);
+            });
             elements.qStemImageBox.style.display = 'block';
         } else {
             elements.qStemImageBox.style.display = 'none';
@@ -409,14 +416,19 @@
                 contentDiv.className = 'option-content';
                 
                 if (opt.text) {
-                    contentDiv.textContent = opt.text;
-                } else if (opt.image) {
+                    const txtSpan = document.createElement('span');
+                    txtSpan.textContent = opt.text;
+                    contentDiv.appendChild(txtSpan);
+                }
+                if (opt.image) {
                     const img = document.createElement('img');
                     img.src = opt.image;
                     img.alt = `Option ${opt.id} formula`;
+                    img.className = 'option-img';
                     contentDiv.appendChild(img);
-                } else {
-                    contentDiv.textContent = `[Formula / Option ${opt.id}]`;
+                }
+                if (!opt.text && !opt.image) {
+                    contentDiv.textContent = `[Option (${opt.id})]`;
                 }
 
                 row.appendChild(input);
@@ -673,14 +685,53 @@
             card.appendChild(header);
             card.appendChild(stem);
 
+            if (q.images && q.images.length > 0) {
+                const imgContainer = document.createElement('div');
+                imgContainer.style.margin = '8px 0';
+                q.images.forEach(imgSrc => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.style.maxHeight = '140px';
+                    img.style.maxWidth = '100%';
+                    img.style.display = 'block';
+                    img.style.margin = '6px 0';
+                    img.style.border = '1px solid #cbd5e1';
+                    img.style.borderRadius = '4px';
+                    imgContainer.appendChild(img);
+                });
+                card.appendChild(imgContainer);
+            }
+
             if (q.options && q.options.length > 0) {
                 const optList = document.createElement('ul');
                 optList.style.listStyle = 'none';
                 optList.style.paddingLeft = '10px';
                 q.options.forEach(o => {
                     const li = document.createElement('li');
-                    li.style.marginBottom = '4px';
-                    li.textContent = `(${o.id}) ${o.text || '[Formula option]'}`;
+                    li.style.marginBottom = '6px';
+                    li.style.display = 'flex';
+                    li.style.alignItems = 'center';
+                    li.style.gap = '8px';
+                    
+                    const spanLabel = document.createElement('span');
+                    spanLabel.style.fontWeight = 'bold';
+                    spanLabel.textContent = `(${o.id})`;
+                    li.appendChild(spanLabel);
+                    
+                    if (o.text) {
+                        const spanTxt = document.createElement('span');
+                        spanTxt.textContent = o.text;
+                        li.appendChild(spanTxt);
+                    }
+                    if (o.image) {
+                        const img = document.createElement('img');
+                        img.src = o.image;
+                        img.style.maxHeight = '45px';
+                        img.style.verticalAlign = 'middle';
+                        img.style.border = '1px solid #cbd5e1';
+                        img.style.borderRadius = '3px';
+                        li.appendChild(img);
+                    }
                     optList.appendChild(li);
                 });
                 card.appendChild(optList);
@@ -904,6 +955,101 @@
             stem.className = 'review-q-stem';
             stem.textContent = q.question_text || "[Diagram problem]";
 
+            // Stem Diagrams
+            const stemImgsBox = document.createElement('div');
+            if (q.images && q.images.length > 0) {
+                stemImgsBox.style.margin = '10px 0';
+                q.images.forEach(imgSrc => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.className = 'stem-diagram-img';
+                    img.style.maxHeight = '220px';
+                    stemImgsBox.appendChild(img);
+                });
+            }
+
+            // Options List with Visual Feedback
+            const optsContainer = document.createElement('div');
+            if (q.options && q.options.length > 0) {
+                optsContainer.className = 'review-options-container';
+                optsContainer.style.margin = '12px 0';
+                optsContainer.style.display = 'flex';
+                optsContainer.style.flexDirection = 'column';
+                optsContainer.style.gap = '8px';
+
+                q.options.forEach(o => {
+                    const optRow = document.createElement('div');
+                    optRow.className = 'review-option-row';
+                    optRow.style.padding = '8px 12px';
+                    optRow.style.borderRadius = '5px';
+                    optRow.style.border = '1px solid #e2e8f0';
+                    optRow.style.display = 'flex';
+                    optRow.style.alignItems = 'center';
+                    optRow.style.gap = '10px';
+                    optRow.style.backgroundColor = '#ffffff';
+
+                    const isOfficialCorrect = (q.correct_answer || []).includes(o.id);
+                    const isCandidateSelected = (resp.selectedOptions || []).includes(o.id);
+
+                    if (isOfficialCorrect) {
+                        optRow.style.borderColor = '#22c55e';
+                        optRow.style.backgroundColor = '#f0fdf4';
+                    } else if (isCandidateSelected && !isOfficialCorrect) {
+                        optRow.style.borderColor = '#ef4444';
+                        optRow.style.backgroundColor = '#fef2f2';
+                    }
+
+                    const badge = document.createElement('span');
+                    badge.style.fontWeight = 'bold';
+                    badge.style.fontSize = '13px';
+                    badge.textContent = `(${o.id})`;
+                    if (isOfficialCorrect) badge.style.color = '#15803d';
+                    optRow.appendChild(badge);
+
+                    const optBody = document.createElement('div');
+                    optBody.style.flex = '1';
+                    if (o.text) {
+                        const tSpan = document.createElement('span');
+                        tSpan.textContent = o.text;
+                        optBody.appendChild(tSpan);
+                    }
+                    if (o.image) {
+                        const img = document.createElement('img');
+                        img.src = o.image;
+                        img.className = 'option-img';
+                        img.style.display = 'block';
+                        img.style.marginTop = '4px';
+                        optBody.appendChild(img);
+                    }
+                    optRow.appendChild(optBody);
+
+                    if (isOfficialCorrect) {
+                        const tag = document.createElement('span');
+                        tag.style.fontSize = '11px';
+                        tag.style.fontWeight = '700';
+                        tag.style.color = '#15803d';
+                        tag.style.backgroundColor = '#dcfce7';
+                        tag.style.padding = '2px 8px';
+                        tag.style.borderRadius = '12px';
+                        tag.textContent = '✔ Correct Option';
+                        optRow.appendChild(tag);
+                    }
+                    if (isCandidateSelected) {
+                        const tag2 = document.createElement('span');
+                        tag2.style.fontSize = '11px';
+                        tag2.style.fontWeight = '700';
+                        tag2.style.color = isOfficialCorrect ? '#15803d' : '#b91c1c';
+                        tag2.style.backgroundColor = isOfficialCorrect ? '#dcfce7' : '#fee2e2';
+                        tag2.style.padding = '2px 8px';
+                        tag2.style.borderRadius = '12px';
+                        tag2.textContent = isOfficialCorrect ? 'Your Choice (Correct)' : 'Your Choice (Incorrect)';
+                        optRow.appendChild(tag2);
+                    }
+
+                    optsContainer.appendChild(optRow);
+                });
+            }
+
             const ansBox = document.createElement('div');
             ansBox.className = 'review-q-ans-box';
             
@@ -942,6 +1088,8 @@
 
             card.appendChild(header);
             card.appendChild(stem);
+            if (q.images && q.images.length > 0) card.appendChild(stemImgsBox);
+            if (q.options && q.options.length > 0) card.appendChild(optsContainer);
             card.appendChild(ansBox);
             elements.reviewQuestionsList.appendChild(card);
         });

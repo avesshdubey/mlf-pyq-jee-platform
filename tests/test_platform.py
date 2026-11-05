@@ -65,5 +65,11 @@ class TestMLFPlatform(unittest.TestCase):
         weeks = set(q['week'] for q in questions)
         self.assertEqual(len(weeks), 4, "All 4 weeks must be present in the dataset")
 
+        # Verify stem and option image coverage
+        stem_images_count = sum(1 for q in questions if q.get('images'))
+        opt_images_count = sum(1 for q in questions for o in q.get('options', []) if o.get('image'))
+        self.assertGreater(stem_images_count, 100, "Should have over 100 questions with stem images/diagrams")
+        self.assertGreater(opt_images_count, 150, "Should have over 150 options with formula images")
+
 if __name__ == "__main__":
     unittest.main()
