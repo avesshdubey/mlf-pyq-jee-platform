@@ -2,7 +2,7 @@
 
 ## Tasks Breakdown
 
-- [ ] **Task 1: Establish Git & 4-Tier Configuration Baseline**
+- [x] **Task 1: Establish Git & 4-Tier Configuration Baseline**
   - Verify `.gitignore` ignores large 850MB PDF binaries.
   - Create initial commit with 4-tier configuration files.
   - Link private GitHub remote repository via GitHub CLI (`gh repo create`) and enable auto-push upstream tracking.

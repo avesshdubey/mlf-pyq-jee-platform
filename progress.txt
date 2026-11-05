@@ -1,14 +1,14 @@
 # Ralph Loop Progress Log - MLF PYQ & JEE CBT Test Platform
 Initialized: 2026-11-05
 Working Directory: C:\Users\avesh\Desktop\PYQS
-Git Remote: Pending Task 1 initialization
+Git Remote: https://github.com/avesshdubey/mlf-pyq-jee-platform
 Stack: Python 3.13, PyMuPDF (fitz), ReportLab, HTML5, CSS3, JavaScript
 
 --------------------------------------------------------------------------------
-Iteration 0: Project Setup & Diagnostics
-- Discovered 65 PDF question papers in workspace (total ~852 MB).
-- Validated PyMuPDF (fitz) and ReportLab availability.
-- Identified 43 question papers containing MLF (Machine Learning Foundations) sections.
-- Configured .gitignore to isolate 850MB PDF binaries from Git tracking.
-- Scaffolded GOAL.md, PRD.md, STEERING.md, and .clinerules.
+Iteration 1: Task 1 Completed - Git & 4-Tier Setup Baseline
+- Git repo initialized with branch `main`.
+- .gitignore configured to prevent tracking of 850MB PDF binaries.
+- Baseline commit d973e10 created.
+- GitHub private repo created: https://github.com/avesshdubey/mlf-pyq-jee-platform
+- Upstream tracking and auto-push enabled.
 --------------------------------------------------------------------------------
