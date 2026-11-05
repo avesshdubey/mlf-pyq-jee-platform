@@ -39,12 +39,23 @@ class TestMLFPlatform(unittest.TestCase):
         index_html = os.path.join(BASE_DIR, "index.html")
         css_file = os.path.join(BASE_DIR, "css", "jee_style.css")
         js_file = os.path.join(BASE_DIR, "js", "jee_app.js")
+        auth_js = os.path.join(BASE_DIR, "js", "auth.js")
+        admin_js = os.path.join(BASE_DIR, "js", "admin.js")
         data_js = os.path.join(BASE_DIR, "data", "questions_data.js")
 
         self.assertTrue(os.path.exists(index_html), "index.html must exist")
         self.assertTrue(os.path.exists(css_file), "css/jee_style.css must exist")
         self.assertTrue(os.path.exists(js_file), "js/jee_app.js must exist")
+        self.assertTrue(os.path.exists(auth_js), "js/auth.js must exist")
+        self.assertTrue(os.path.exists(admin_js), "js/admin.js must exist")
         self.assertTrue(os.path.exists(data_js), "data/questions_data.js must exist")
+
+        with open(index_html, "r", encoding="utf-8") as f:
+            html_content = f.read()
+        self.assertIn("auth.js", html_content, "index.html must include auth.js")
+        self.assertIn("admin.js", html_content, "index.html must include admin.js")
+        self.assertIn("authModal", html_content, "index.html must contain auth modal")
+        self.assertIn("adminDashboardView", html_content, "index.html must contain admin dashboard")
 
     def test_category_coverage(self):
         json_path = os.path.join(BASE_DIR, "data", "questions.json")

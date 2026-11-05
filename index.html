@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JEE CBT Mock Test - Machine Learning Foundations (MLF)</title>
+    <title>JEE CBT Mock Test & Admin Portal - Machine Learning Foundations (MLF)</title>
     <link rel="stylesheet" href="css/jee_style.css">
 </head>
 <body>
@@ -14,166 +14,425 @@
             <div class="iit-logo-badge">IITM</div>
             <div class="exam-title-block">
                 <h1>INDIAN INSTITUTE OF TECHNOLOGY MADRAS — BS DEGREE PROGRAMME</h1>
-                <h2>MACHINE LEARNING FOUNDATIONS (MLF) — COMPREHENSIVE PAST YEAR QUESTION BANK</h2>
+                <h2>MACHINE LEARNING FOUNDATIONS (MLF) — PAST YEAR QUESTION & CBT EXAMINATION SYSTEM</h2>
             </div>
         </div>
         <div class="header-right">
-            <div class="candidate-card">
+            <div class="candidate-card" id="userHeaderCard">
                 <div class="candidate-avatar">
                     <svg viewBox="0 0 24 24" width="36" height="36" fill="#555">
                         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
                 </div>
                 <div class="candidate-info">
-                    <span class="cand-name">Candidate: <strong>Student (Diploma Level)</strong></span>
-                    <span class="cand-roll">Roll No: <strong>24DSXXXXXX</strong></span>
-                    <span class="cand-sub">Subject: <strong>Machine Learning Foundations</strong></span>
+                    <span class="cand-name">Candidate: <strong id="headerUserName">Avesh Dubey</strong></span>
+                    <span class="cand-roll">Roll No: <strong id="headerUserRoll">24DS109284</strong></span>
+                    <span class="cand-sub">Role: <strong id="headerUserRole">STUDENT</strong></span>
                 </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-admin-nav" id="btnToggleAdminView" style="display: none;">⚙️ Admin Panel</button>
+                <button class="btn btn-exam-nav" id="btnToggleExamView" style="display: none;">📝 Exam Mode</button>
+                <button class="btn btn-logout" id="btnLogout">Sign Out</button>
             </div>
         </div>
     </header>
 
-    <!-- SUB-BAR: Section Selector & Timer -->
-    <div class="sub-bar">
-        <div class="sections-nav" id="sectionTabs">
-            <button class="sec-tab active" data-week="ALL">All Weeks (210)</button>
-            <button class="sec-tab" data-week="Week 1 - ML Foundations">Week 1: ML Foundations (95)</button>
-            <button class="sec-tab" data-week="Week 2 - Mathematical Foundations">Week 2: Math Foundations (22)</button>
-            <button class="sec-tab" data-week="Week 3 - Linear Algebra & Subspaces">Week 3: Linear Algebra (63)</button>
-            <button class="sec-tab" data-week="Week 4 - Regression & Eigenvalues">Week 4: Regression & Eigen (30)</button>
-        </div>
-        <div class="timer-box">
-            <span class="timer-label">Time Remaining:</span>
-            <span class="timer-clock" id="timerDisplay">180:00</span>
-            <button class="timer-btn" id="pauseTimerBtn" title="Pause / Resume Timer">⏸</button>
+    <!-- AUTHENTICATION GATE MODAL (Login & Sign Up) -->
+    <div class="modal-overlay" id="authModal" style="display: none;">
+        <div class="modal-box auth-modal-box">
+            <div class="auth-modal-header">
+                <div class="iit-logo-badge-lg">IIT MADRAS</div>
+                <h2>CBT Examination & Learning Portal</h2>
+                <p>Machine Learning Foundations (MLF) Examination System</p>
+            </div>
+            
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tabLoginBtn">Candidate Login</button>
+                <button class="auth-tab-btn" id="tabSignupBtn">New Student Registration</button>
+            </div>
+
+            <div class="auth-body">
+                <!-- Alert Box -->
+                <div class="auth-alert" id="authAlert" style="display: none;"></div>
+
+                <!-- LOGIN FORM -->
+                <form id="formLogin" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginIdentifier">Email Address or IITM Roll Number:</label>
+                        <input type="text" id="loginIdentifier" class="form-control" placeholder="e.g. student@iitm.ac.in or 24DS109284" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-check-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="loginRememberMe" checked> Remember this device
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-auth-submit">Sign In & Begin Exam</button>
+
+                    <!-- Quick Demo Logins -->
+                    <div class="quick-login-box">
+                        <span class="quick-title">Quick Demo Sign-In:</span>
+                        <div class="quick-btns">
+                            <button type="button" class="btn btn-quick" id="btnQuickStudent">Student Demo (Avesh Dubey)</button>
+                            <button type="button" class="btn btn-quick" id="btnQuickAdmin">Faculty Admin Demo</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- SIGN UP FORM -->
+                <form id="formSignup" class="auth-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="signupName">Full Name:</label>
+                        <input type="text" id="signupName" class="form-control" placeholder="e.g. Avesh Dubey" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address:</label>
+                        <input type="email" id="signupEmail" class="form-control" placeholder="e.g. student@iitm.ac.in" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupRoll">IITM Roll Number / Candidate ID:</label>
+                        <input type="text" id="signupRoll" class="form-control" placeholder="e.g. 24DS109284" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Create Password (min 6 characters):</label>
+                        <input type="password" id="signupPassword" class="form-control" placeholder="••••••••" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupRole">Account Role:</label>
+                        <select id="signupRole" class="form-control">
+                            <option value="student">Student / Aspirant</option>
+                            <option value="admin">Teaching Assistant / Admin</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-auth-submit">Register Account & Sign In</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- MAIN EXAM CONTAINER -->
-    <main class="exam-container" id="examMain">
-        
-        <!-- LEFT COLUMN: Question Viewing & Input Area -->
-        <section class="question-column">
-            
-            <!-- Question Top Meta Bar -->
-            <div class="q-meta-bar">
-                <div class="q-number-title">
-                    <span id="currentQDisplayNum">Question No. 1</span>
-                    <span class="q-type-badge" id="currentQTypeBadge">Multiple Choice Question</span>
-                    <span class="q-subtopic-tag" id="currentQSubtopic">Subtopic</span>
+    <!-- ==================== VIEW 1: JEE CBT EXAM INTERFACE ==================== -->
+    <div id="examInterfaceView">
+        <!-- SUB-BAR: Section Selector & Timer -->
+        <div class="sub-bar">
+            <div class="sections-nav" id="sectionTabs">
+                <button class="sec-tab active" data-week="ALL">All Weeks (210)</button>
+                <button class="sec-tab" data-week="Week 1 - ML Foundations">Week 1: ML Foundations (95)</button>
+                <button class="sec-tab" data-week="Week 2 - Mathematical Foundations">Week 2: Math Foundations (22)</button>
+                <button class="sec-tab" data-week="Week 3 - Linear Algebra & Subspaces">Week 3: Linear Algebra (63)</button>
+                <button class="sec-tab" data-week="Week 4 - Regression & Eigenvalues">Week 4: Regression & Eigen (30)</button>
+            </div>
+            <div class="timer-box">
+                <span class="timer-label">Time Remaining:</span>
+                <span class="timer-clock" id="timerDisplay">180:00</span>
+                <button class="timer-btn" id="pauseTimerBtn" title="Pause / Resume Timer">⏸</button>
+            </div>
+        </div>
+
+        <!-- MAIN EXAM CONTAINER -->
+        <main class="exam-container" id="examMain">
+            <!-- LEFT COLUMN: Question Viewing & Input Area -->
+            <section class="question-column">
+                <div class="q-meta-bar">
+                    <div class="q-number-title">
+                        <span id="currentQDisplayNum">Question No. 1</span>
+                        <span class="q-type-badge" id="currentQTypeBadge">Multiple Choice Question</span>
+                        <span class="q-subtopic-tag" id="currentQSubtopic">Subtopic</span>
+                    </div>
+                    <div class="q-marking-scheme">
+                        <span class="mark-pos" id="markPosDisplay">Marks for correct: +3</span>
+                        <span class="mark-neg" id="markNegDisplay">Negative marks: 0</span>
+                        <button class="action-link-btn" id="viewQPBtn">Question Paper</button>
+                        <button class="action-link-btn" id="viewInstBtn">Instructions</button>
+                    </div>
                 </div>
-                <div class="q-marking-scheme">
-                    <span class="mark-pos" id="markPosDisplay">Marks for correct: +3</span>
-                    <span class="mark-neg" id="markNegDisplay">Negative marks: -1</span>
-                    <button class="action-link-btn" id="viewQPBtn">Question Paper</button>
-                    <button class="action-link-btn" id="viewInstBtn">Instructions</button>
+
+                <div class="q-scroll-body" id="qScrollBody">
+                    <div class="q-source-banner" id="qSourceBanner">
+                        Source Papers: <span id="qSourceList">Loading...</span>
+                    </div>
+                    <div class="q-stem-text" id="qStemText">
+                        Loading question text...
+                    </div>
+                    <div class="q-stem-image-box" id="qStemImageBox" style="display: none;">
+                        <img id="qStemImage" src="" alt="Question Diagram / Matrix">
+                    </div>
+                    <div class="q-input-container" id="qInputContainer"></div>
+                </div>
+
+                <footer class="q-footer-bar">
+                    <div class="footer-left">
+                        <button class="btn btn-purple" id="btnMarkReviewNext">Mark for Review & Next</button>
+                        <button class="btn btn-default" id="btnClearResponse">Clear Response</button>
+                    </div>
+                    <div class="footer-right">
+                        <button class="btn btn-default" id="btnPrevious">&laquo; Previous</button>
+                        <button class="btn btn-green" id="btnSaveNext">Save & Next &raquo;</button>
+                    </div>
+                </footer>
+            </section>
+
+            <!-- RIGHT COLUMN: Question Palette & Navigation -->
+            <aside class="palette-column">
+                <div class="palette-legend">
+                    <div class="legend-row">
+                        <div class="legend-item"><span class="badge badge-answered" id="countAnswered">0</span> Answered</div>
+                        <div class="legend-item"><span class="badge badge-not-answered" id="countNotAnswered">0</span> Not Answered</div>
+                    </div>
+                    <div class="legend-row">
+                        <div class="legend-item"><span class="badge badge-not-visited" id="countNotVisited">210</span> Not Visited</div>
+                        <div class="legend-item"><span class="badge badge-marked" id="countMarked">0</span> Marked for Review</div>
+                    </div>
+                    <div class="legend-row full">
+                        <div class="legend-item"><span class="badge badge-marked-answered" id="countMarkedAnswered">0</span> Answered & Marked for Review (considered for evaluation)</div>
+                    </div>
+                </div>
+
+                <div class="palette-subfilter">
+                    <label for="subtopicFilterSelect">Filter Subtopic:</label>
+                    <select id="subtopicFilterSelect">
+                        <option value="ALL">All Subtopics</option>
+                    </select>
+                </div>
+
+                <div class="palette-header">
+                    <h3>Question Palette</h3>
+                    <span class="active-sec-label" id="paletteSecLabel">All Questions (210)</span>
+                </div>
+
+                <div class="palette-grid-scroll">
+                    <div class="palette-grid" id="paletteGrid"></div>
+                </div>
+
+                <div class="palette-footer">
+                    <button class="btn btn-submit-test" id="btnSubmitTest">Submit Test</button>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- ==================== VIEW 2: ADMIN CONTROL PANEL & DASHBOARD ==================== -->
+    <section class="admin-dashboard-container" id="adminDashboardView" style="display: none;">
+        <div class="admin-top-banner">
+            <div class="admin-header-title">
+                <h2>ADMINISTRATIVE CONTROL PANEL & ANALYTICS DASHBOARD</h2>
+                <p>System User Control, Test History, Question Bank Management & Syllabus Diagnostics</p>
+            </div>
+            <div class="admin-banner-actions">
+                <button class="btn btn-default" id="btnExportJson">📥 Export JSON</button>
+                <button class="btn btn-default" id="btnExportCsv">📊 Export CSV</button>
+                <button class="btn btn-danger-outline" id="btnResetSystemData">⚠️ Reset DB</button>
+            </div>
+        </div>
+
+        <!-- KPI Metric Cards -->
+        <div class="admin-kpi-grid">
+            <div class="admin-kpi-card">
+                <div class="kpi-icon">👥</div>
+                <div class="kpi-data">
+                    <span class="kpi-num" id="kpiTotalUsers">0</span>
+                    <span class="kpi-title">Registered Users</span>
                 </div>
             </div>
-
-            <!-- Scrollable Question Body -->
-            <div class="q-scroll-body" id="qScrollBody">
-                
-                <!-- Question Source Info -->
-                <div class="q-source-banner" id="qSourceBanner">
-                    Source Papers: <span id="qSourceList">Loading...</span>
-                </div>
-
-                <!-- Question Stem Text -->
-                <div class="q-stem-text" id="qStemText">
-                    Loading question text...
-                </div>
-
-                <!-- Question Diagram / Formula Image -->
-                <div class="q-stem-image-box" id="qStemImageBox" style="display: none;">
-                    <img id="qStemImage" src="" alt="Question Diagram / Matrix">
-                </div>
-
-                <!-- Answer Input Area (Dynamic for MCQ, MSQ, SA) -->
-                <div class="q-input-container" id="qInputContainer">
-                    <!-- Injected by JavaScript -->
-                </div>
-
-            </div>
-
-            <!-- Bottom Control Bar -->
-            <footer class="q-footer-bar">
-                <div class="footer-left">
-                    <button class="btn btn-purple" id="btnMarkReviewNext">Mark for Review & Next</button>
-                    <button class="btn btn-default" id="btnClearResponse">Clear Response</button>
-                </div>
-                <div class="footer-right">
-                    <button class="btn btn-default" id="btnPrevious">&laquo; Previous</button>
-                    <button class="btn btn-green" id="btnSaveNext">Save & Next &raquo;</button>
-                </div>
-            </footer>
-
-        </section>
-
-        <!-- RIGHT COLUMN: Question Palette & Navigation -->
-        <aside class="palette-column">
-            
-            <!-- JEE Palette Legend -->
-            <div class="palette-legend">
-                <div class="legend-row">
-                    <div class="legend-item"><span class="badge badge-answered" id="countAnswered">0</span> Answered</div>
-                    <div class="legend-item"><span class="badge badge-not-answered" id="countNotAnswered">0</span> Not Answered</div>
-                </div>
-                <div class="legend-row">
-                    <div class="legend-item"><span class="badge badge-not-visited" id="countNotVisited">210</span> Not Visited</div>
-                    <div class="legend-item"><span class="badge badge-marked" id="countMarked">0</span> Marked for Review</div>
-                </div>
-                <div class="legend-row full">
-                    <div class="legend-item"><span class="badge badge-marked-answered" id="countMarkedAnswered">0</span> Answered & Marked for Review (considered for evaluation)</div>
+            <div class="admin-kpi-card">
+                <div class="kpi-icon">📝</div>
+                <div class="kpi-data">
+                    <span class="kpi-num" id="kpiTotalAttempts">0</span>
+                    <span class="kpi-title">Tests Attempted</span>
                 </div>
             </div>
-
-            <!-- Active Section Info & Filter -->
-            <div class="palette-subfilter">
-                <label for="subtopicFilterSelect">Filter Subtopic:</label>
-                <select id="subtopicFilterSelect">
-                    <option value="ALL">All Subtopics</option>
-                </select>
-            </div>
-
-            <!-- Grid Header -->
-            <div class="palette-header">
-                <h3>Question Palette</h3>
-                <span class="active-sec-label" id="paletteSecLabel">All Questions (210)</span>
-            </div>
-
-            <!-- Scrollable Grid of Numbers -->
-            <div class="palette-grid-scroll">
-                <div class="palette-grid" id="paletteGrid">
-                    <!-- Populated by JS -->
+            <div class="admin-kpi-card">
+                <div class="kpi-icon">🎯</div>
+                <div class="kpi-data">
+                    <span class="kpi-num" id="kpiAvgScore">0</span>
+                    <span class="kpi-title">Average Score</span>
                 </div>
             </div>
-
-            <!-- Submit Test Button -->
-            <div class="palette-footer">
-                <button class="btn btn-submit-test" id="btnSubmitTest">Submit Test</button>
+            <div class="admin-kpi-card">
+                <div class="kpi-icon">📈</div>
+                <div class="kpi-data">
+                    <span class="kpi-num" id="kpiAvgAccuracy">0%</span>
+                    <span class="kpi-title">Average Accuracy</span>
+                </div>
             </div>
+            <div class="admin-kpi-card">
+                <div class="kpi-icon">📚</div>
+                <div class="kpi-data">
+                    <span class="kpi-num" id="kpiTotalQuestions">210</span>
+                    <span class="kpi-title">Question Repository</span>
+                </div>
+            </div>
+        </div>
 
-        </aside>
+        <!-- Admin Nav Tabs -->
+        <div class="admin-nav-tabs">
+            <button class="admin-nav-tab active" data-tab="adminTabUsers">User Management</button>
+            <button class="admin-nav-tab" data-tab="adminTabAttempts">Test Submissions & Live Feed</button>
+            <button class="admin-nav-tab" data-tab="adminTabQuestions">Question Bank (210 Qs)</button>
+            <button class="admin-nav-tab" data-tab="adminTabAnalytics">Syllabus Breakdown</button>
+        </div>
 
-    </main>
+        <!-- TAB 1: USER MANAGEMENT -->
+        <div class="admin-tab-content" id="adminTabUsers">
+            <div class="tab-toolbar">
+                <div class="toolbar-left">
+                    <input type="text" id="adminUserSearch" class="search-input" placeholder="Search by candidate name, email, or roll number...">
+                    <select id="adminUserRoleFilter" class="filter-select">
+                        <option value="ALL">All Roles</option>
+                        <option value="student">Students</option>
+                        <option value="admin">Administrators</option>
+                    </select>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn btn-green" id="btnOpenAddUser">+ Add New User</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Candidate Name</th>
+                            <th>Email Address</th>
+                            <th>Roll Number</th>
+                            <th>Role</th>
+                            <th>Tests Taken</th>
+                            <th>Highest Score</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsersTbody"></tbody>
+                </table>
+            </div>
+        </div>
 
-    <!-- MODAL 1: QUESTION PAPER OVERVIEW -->
+        <!-- TAB 2: TEST SUBMISSIONS & FEED -->
+        <div class="admin-tab-content" id="adminTabAttempts" style="display: none;">
+            <div class="tab-toolbar">
+                <h3>Live Test Submissions Feed</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Attempt ID</th>
+                            <th>Candidate</th>
+                            <th>Section / Syllabus</th>
+                            <th>Date & Time</th>
+                            <th>Score / Max</th>
+                            <th>Accuracy</th>
+                            <th>Time Spent</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminAttemptsTbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 3: QUESTION BANK MANAGER -->
+        <div class="admin-tab-content" id="adminTabQuestions" style="display: none;">
+            <div class="tab-toolbar">
+                <div class="toolbar-left">
+                    <input type="text" id="adminQSearch" class="search-input" placeholder="Search by question ID or keywords...">
+                    <select id="adminQWeekFilter" class="filter-select">
+                        <option value="ALL">All Weeks</option>
+                        <option value="Week 1 - ML Foundations">Week 1: ML Foundations</option>
+                        <option value="Week 2 - Mathematical Foundations">Week 2: Math Foundations</option>
+                        <option value="Week 3 - Linear Algebra & Subspaces">Week 3: Linear Algebra</option>
+                        <option value="Week 4 - Regression & Eigenvalues">Week 4: Regression & Eigenvalues</option>
+                    </select>
+                </div>
+                <div class="toolbar-right">
+                    <span id="adminQCountIndicator" style="font-size: 12px; color: #64748b; font-weight: 600;"></span>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Question ID</th>
+                            <th>Type</th>
+                            <th>Category & Subtopic</th>
+                            <th>Marks</th>
+                            <th>Question Stem Preview</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminQuestionsTbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 4: SYLLABUS ANALYTICS -->
+        <div class="admin-tab-content" id="adminTabAnalytics" style="display: none;">
+            <div class="analytics-card">
+                <h3>Syllabus Distribution Across Question Repository</h3>
+                <p>Weightage breakdown across all 210 unique questions extracted from past year exam papers.</p>
+                <div id="adminSyllabusBarsContainer" class="syllabus-bars-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL: ADD USER (ADMIN) -->
+    <div class="modal-overlay" id="addUserModal" style="display: none;">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Add New System User</h2>
+                <button class="modal-close" id="closeAddUserModal">&times;</button>
+            </div>
+            <form id="formAddUser">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newUserName">Full Name:</label>
+                        <input type="text" id="newUserName" class="form-control" required placeholder="e.g. Rohini Roy">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserEmail">Email Address:</label>
+                        <input type="email" id="newUserEmail" class="form-control" required placeholder="e.g. rohini@iitm.ac.in">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserRoll">IITM Roll Number:</label>
+                        <input type="text" id="newUserRoll" class="form-control" required placeholder="e.g. 24DS108899">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserPassword">Default Password:</label>
+                        <input type="password" id="newUserPassword" class="form-control" value="Student@123" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserRole">User Role:</label>
+                        <select id="newUserRole" class="form-control">
+                            <option value="student">Student</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="cancelAddUserBtn">Cancel</button>
+                    <button type="submit" class="btn btn-green">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: QUESTION PAPER OVERVIEW -->
     <div class="modal-overlay" id="qpModal" style="display: none;">
         <div class="modal-box qp-modal-box">
             <div class="modal-header">
                 <h2>Question Paper View (All Questions)</h2>
                 <button class="modal-close" id="closeQpModal">&times;</button>
             </div>
-            <div class="modal-body qp-modal-body" id="qpModalContent">
-                <!-- Injected by JS -->
-            </div>
+            <div class="modal-body qp-modal-body" id="qpModalContent"></div>
             <div class="modal-footer">
                 <button class="btn btn-default" id="closeQpModalBtn">Close Question Paper</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: INSTRUCTIONS -->
+    <!-- MODAL: INSTRUCTIONS -->
     <div class="modal-overlay" id="instModal" style="display: none;">
         <div class="modal-box">
             <div class="modal-header">
@@ -184,25 +443,17 @@
                 <h4>General Instructions:</h4>
                 <ol>
                     <li>Total duration of examination is 180 minutes.</li>
-                    <li>The clock will be set at the server. The countdown timer in the top right corner will display the remaining time available for you to complete the examination.</li>
-                    <li>The Question Palette displayed on the right side of screen will show the status of each question using one of the following symbols:
+                    <li>The countdown timer in the top right corner displays remaining time.</li>
+                    <li>The Question Palette displays status:
                         <ul>
-                            <li><span class="badge badge-not-visited">1</span> You have not visited the question yet.</li>
-                            <li><span class="badge badge-not-answered">2</span> You have not answered the question.</li>
-                            <li><span class="badge badge-answered">3</span> You have answered the question.</li>
-                            <li><span class="badge badge-marked">4</span> You have NOT answered the question, but have marked the question for review.</li>
-                            <li><span class="badge badge-marked-answered">5</span> The question(s) "Answered and Marked for Review" will be considered for evaluation.</li>
+                            <li><span class="badge badge-not-visited">1</span> Not visited.</li>
+                            <li><span class="badge badge-not-answered">2</span> Not answered.</li>
+                            <li><span class="badge badge-answered">3</span> Answered.</li>
+                            <li><span class="badge badge-marked">4</span> Marked for review (unanswered).</li>
+                            <li><span class="badge badge-marked-answered">5</span> Answered & Marked for review (considered for evaluation).</li>
                         </ul>
                     </li>
-                    <li>Navigating to a Question: Click on the question number in the Question Palette to go to that question directly.</li>
-                    <li>Answering a Question:
-                        <ul>
-                            <li>For Multiple Choice Type Question: To select your answer, click on the button of one of the options.</li>
-                            <li>To deselect your chosen answer, click on the <strong>Clear Response</strong> button.</li>
-                            <li>To change your chosen answer, click on the button of another option.</li>
-                            <li>To save your answer, you MUST click on the <strong>Save & Next</strong> button.</li>
-                        </ul>
-                    </li>
+                    <li>To save answer: Click <strong>Save & Next</strong>.</li>
                 </ol>
             </div>
             <div class="modal-footer">
@@ -211,7 +462,7 @@
         </div>
     </div>
 
-    <!-- MODAL 3: CONFIRM SUBMISSION -->
+    <!-- MODAL: CONFIRM SUBMISSION -->
     <div class="modal-overlay" id="submitModal" style="display: none;">
         <div class="modal-box submit-summary-box">
             <div class="modal-header">
@@ -231,9 +482,7 @@
                             <th>Not Visited</th>
                         </tr>
                     </thead>
-                    <tbody id="submitSummaryTbody">
-                        <!-- Populated by JS -->
-                    </tbody>
+                    <tbody id="submitSummaryTbody"></tbody>
                 </table>
                 <div class="submit-warning">
                     ⚠️ Once submitted, you cannot change your answers. Do you wish to proceed?
@@ -246,7 +495,7 @@
         </div>
     </div>
 
-    <!-- VIEW 2: FINAL SCORECARD & DETAILED REVIEW (Shown after submit) -->
+    <!-- VIEW 3: FINAL SCORECARD & DETAILED REVIEW -->
     <section class="scorecard-container" id="scorecardView" style="display: none;">
         <div class="scorecard-header">
             <div class="scorecard-title">
@@ -256,7 +505,6 @@
             <button class="btn btn-default" id="btnRestartTest">Take Test Again</button>
         </div>
 
-        <!-- Metric Cards -->
         <div class="scorecard-metrics">
             <div class="metric-card">
                 <span class="m-val" id="resTotalScore">0</span>
@@ -276,7 +524,6 @@
             </div>
         </div>
 
-        <!-- Category Performance Table -->
         <div class="scorecard-section">
             <h3>Syllabus Category Performance Breakdown</h3>
             <table class="category-perf-table">
@@ -291,13 +538,10 @@
                         <th>Accuracy</th>
                     </tr>
                 </thead>
-                <tbody id="categoryPerfTbody">
-                    <!-- Populated by JS -->
-                </tbody>
+                <tbody id="categoryPerfTbody"></tbody>
             </table>
         </div>
 
-        <!-- Detailed Solutions Review Accordion -->
         <div class="scorecard-section">
             <h3>Detailed Question-by-Question Solution & Explanations Review</h3>
             <div class="review-filter-bar">
@@ -306,14 +550,14 @@
                 <button class="review-filter-tab" data-filter="INCORRECT">Incorrect</button>
                 <button class="review-filter-tab" data-filter="UNATTEMPTED">Unattempted</button>
             </div>
-            <div class="review-q-list" id="reviewQuestionsList">
-                <!-- Populated by JS -->
-            </div>
+            <div class="review-q-list" id="reviewQuestionsList"></div>
         </div>
     </section>
 
     <!-- Embedded Scripts -->
     <script src="data/questions_data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
     <script src="js/jee_app.js"></script>
 </body>
 </html>

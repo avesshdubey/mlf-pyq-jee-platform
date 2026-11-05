@@ -10,7 +10,6 @@
     let currentSubtopicFilter = 'ALL';
     
     // User responses: questionId -> { status, selectedOptions, value }
-    // Status enum: NOT_VISITED, NOT_ANSWERED, ANSWERED, MARKED, MARKED_ANSWERED
     let responses = {};
 
     // Timer state
@@ -27,6 +26,30 @@
         paletteSecLabel: document.getElementById('paletteSecLabel'),
         paletteGrid: document.getElementById('paletteGrid'),
         
+        // Header & User elements
+        headerUserName: document.getElementById('headerUserName'),
+        headerUserRoll: document.getElementById('headerUserRoll'),
+        headerUserRole: document.getElementById('headerUserRole'),
+        btnToggleAdminView: document.getElementById('btnToggleAdminView'),
+        btnToggleExamView: document.getElementById('btnToggleExamView'),
+        btnLogout: document.getElementById('btnLogout'),
+        
+        // Views
+        examInterfaceView: document.getElementById('examInterfaceView'),
+        adminDashboardView: document.getElementById('adminDashboardView'),
+        scorecardView: document.getElementById('scorecardView'),
+        examMain: document.getElementById('examMain'),
+
+        // Auth Modal elements
+        authModal: document.getElementById('authModal'),
+        tabLoginBtn: document.getElementById('tabLoginBtn'),
+        tabSignupBtn: document.getElementById('tabSignupBtn'),
+        formLogin: document.getElementById('formLogin'),
+        formSignup: document.getElementById('formSignup'),
+        authAlert: document.getElementById('authAlert'),
+        btnQuickStudent: document.getElementById('btnQuickStudent'),
+        btnQuickAdmin: document.getElementById('btnQuickAdmin'),
+
         // Question View
         currentQDisplayNum: document.getElementById('currentQDisplayNum'),
         currentQTypeBadge: document.getElementById('currentQTypeBadge'),
@@ -72,8 +95,6 @@
         closeSubmitModal: document.getElementById('closeSubmitModal'),
 
         // Scorecard View
-        examMain: document.getElementById('examMain'),
-        scorecardView: document.getElementById('scorecardView'),
         resTotalScore: document.getElementById('resTotalScore'),
         resMaxMarks: document.getElementById('resMaxMarks'),
         resAccuracy: document.getElementById('resAccuracy'),
@@ -140,6 +161,52 @@
         applyFilter();
         startTimer();
         bindEvents();
+
+        // Check authentication
+        checkAuthAndSetupUI();
+    }
+
+    // ==================== AUTHENTICATION & ROLE GUARDS ====================
+    function checkAuthAndSetupUI() {
+        if (!window.MLFAuth) return;
+
+        const curUser = window.MLFAuth.getCurrentUser();
+
+        if (curUser) {
+            // User is signed in
+            elements.authModal.style.display = 'none';
+            elements.headerUserName.textContent = curUser.name;
+            elements.headerUserRoll.textContent = curUser.rollNo;
+            elements.headerUserRole.textContent = curUser.role.toUpperCase();
+
+            if (curUser.role === 'admin') {
+                elements.btnToggleAdminView.style.display = 'inline-block';
+                // Initialize Admin Controller
+                if (window.MLFAdmin) {
+                    window.MLFAdmin.init(allQuestions);
+                }
+            } else {
+                elements.btnToggleAdminView.style.display = 'none';
+                elements.btnToggleExamView.style.display = 'none';
+                elements.examInterfaceView.style.display = 'block';
+                elements.adminDashboardView.style.display = 'none';
+            }
+        } else {
+            // User is NOT signed in: trigger auth modal
+            elements.authModal.style.display = 'flex';
+            elements.btnToggleAdminView.style.display = 'none';
+            elements.btnToggleExamView.style.display = 'none';
+        }
+    }
+
+    function showAuthAlert(msg, isSuccess = false) {
+        elements.authAlert.textContent = msg;
+        elements.authAlert.className = `auth-alert ${isSuccess ? 'success' : 'error'}`;
+        elements.authAlert.style.display = 'block';
+    }
+
+    function hideAuthAlert() {
+        elements.authAlert.style.display = 'none';
     }
 
     function buildSubtopicDropdown() {
@@ -330,7 +397,6 @@
             elements.qInputContainer.appendChild(listDiv);
 
         } else if (q.question_type === 'SA') {
-            // Numerical / NAT input with virtual keypad
             const box = document.createElement('div');
             box.className = 'numeric-input-box';
 
@@ -347,7 +413,6 @@
                 resp.value = inp.value.trim();
             });
 
-            // Virtual keypad
             const keypad = document.createElement('div');
             keypad.className = 'virtual-keypad';
             const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '-', 'CLEAR', 'BACK'];
@@ -389,7 +454,6 @@
             resp.selectedOptions = isChecked ? [optId] : [];
         }
 
-        // Update selected class on UI
         const rows = elements.qInputContainer.querySelectorAll('.option-row');
         rows.forEach(r => {
             const input = r.querySelector('input');
@@ -585,7 +649,6 @@
     }
 
     function openSubmitModal() {
-        // Build summary table grouped by week
         const weeks = [
             "Week 1 - ML Foundations",
             "Week 2 - Mathematical Foundations",
@@ -628,7 +691,6 @@
             elements.submitSummaryTbody.appendChild(tr);
         });
 
-        // Total row
         const totalTr = document.createElement('tr');
         totalTr.style.backgroundColor = '#f8fafc';
         totalTr.style.fontWeight = 'bold';
@@ -648,7 +710,7 @@
     function submitExam() {
         if (timerInterval) clearInterval(timerInterval);
         elements.submitModal.style.display = 'none';
-        elements.examMain.style.display = 'none';
+        elements.examInterfaceView.style.display = 'none';
         elements.scorecardView.style.display = 'block';
 
         calculateAndRenderScorecard();
@@ -681,7 +743,6 @@
                 attemptedCount++;
                 categoryStats[w][st].attempted++;
 
-                // Evaluate answer
                 const key = q.correct_answer || [];
                 if (q.question_type === 'MCQ') {
                     isCorrect = key.length > 0 && key.includes(resp.selectedOptions[0]);
@@ -716,10 +777,29 @@
             };
         });
 
+        // Record Test Attempt in Auth & Admin storage
+        const accuracy = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
+        if (window.MLFAuth) {
+            window.MLFAuth.recordTestAttempt({
+                section: currentWeekFilter === 'ALL' ? 'All Weeks' : currentWeekFilter,
+                totalQuestions: allQuestions.length,
+                attempted: attemptedCount,
+                correct: correctCount,
+                score: totalScore,
+                maxMarks: maxMarks,
+                accuracy: accuracy,
+                timeSpent: `${Math.round((180 * 60 - totalSeconds) / 60)} mins`
+            });
+            if (window.MLFAdmin) {
+                window.MLFAdmin.renderOverview();
+                window.MLFAdmin.renderAttemptsTable();
+                window.MLFAdmin.renderUsersTable();
+            }
+        }
+
         // Render Metric Cards
         elements.resTotalScore.textContent = totalScore;
         elements.resMaxMarks.textContent = maxMarks;
-        const accuracy = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
         elements.resAccuracy.textContent = `${accuracy}%`;
         elements.resAttempted.textContent = `${attemptedCount} / ${allQuestions.length}`;
 
@@ -881,6 +961,111 @@
                 tab.classList.add('active');
                 renderDetailedReview(tab.dataset.filter);
             });
+        });
+
+        // ==================== AUTH & ADMIN DASHBOARD EVENTS ====================
+        // Auth Tab Toggle
+        elements.tabLoginBtn.addEventListener('click', () => {
+            elements.tabLoginBtn.classList.add('active');
+            elements.tabSignupBtn.classList.remove('active');
+            elements.formLogin.style.display = 'block';
+            elements.formSignup.style.display = 'none';
+            hideAuthAlert();
+        });
+
+        elements.tabSignupBtn.addEventListener('click', () => {
+            elements.tabSignupBtn.classList.add('active');
+            elements.tabLoginBtn.classList.remove('active');
+            elements.formLogin.style.display = 'none';
+            elements.formSignup.style.display = 'block';
+            hideAuthAlert();
+        });
+
+        // Form Login
+        elements.formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const idVal = document.getElementById('loginIdentifier').value;
+            const passVal = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('loginRememberMe').checked;
+
+            const res = window.MLFAuth.login(idVal, passVal, rememberMe);
+            if (res.success) {
+                checkAuthAndSetupUI();
+            } else {
+                showAuthAlert(res.error || 'Login failed.');
+            }
+        });
+
+        // Form Signup
+        elements.formSignup.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const rollNo = document.getElementById('signupRoll').value;
+            const password = document.getElementById('signupPassword').value;
+            const role = document.getElementById('signupRole').value;
+
+            const res = window.MLFAuth.signUp(name, email, rollNo, password, role);
+            if (res.success) {
+                checkAuthAndSetupUI();
+            } else {
+                showAuthAlert(res.error || 'Registration failed.');
+            }
+        });
+
+        // Quick Demo Logins
+        elements.btnQuickStudent.addEventListener('click', () => {
+            document.getElementById('loginIdentifier').value = 'student@iitm.ac.in';
+            document.getElementById('loginPassword').value = 'Student@123';
+            const res = window.MLFAuth.login('student@iitm.ac.in', 'Student@123', true);
+            if (res.success) checkAuthAndSetupUI();
+        });
+
+        elements.btnQuickAdmin.addEventListener('click', () => {
+            document.getElementById('loginIdentifier').value = 'admin@iitm.ac.in';
+            document.getElementById('loginPassword').value = 'Admin@123';
+            const res = window.MLFAuth.login('admin@iitm.ac.in', 'Admin@123', true);
+            if (res.success) checkAuthAndSetupUI();
+        });
+
+        // Logout
+        elements.btnLogout.addEventListener('click', () => {
+            if (confirm("Sign out of MLF CBT portal?")) {
+                window.MLFAuth.logout();
+                elements.authModal.style.display = 'flex';
+                elements.btnToggleAdminView.style.display = 'none';
+                elements.btnToggleExamView.style.display = 'none';
+                elements.examInterfaceView.style.display = 'block';
+                elements.adminDashboardView.style.display = 'none';
+                elements.scorecardView.style.display = 'none';
+            }
+        });
+
+        // Switch to Admin Dashboard View
+        elements.btnToggleAdminView.addEventListener('click', () => {
+            elements.examInterfaceView.style.display = 'none';
+            elements.scorecardView.style.display = 'none';
+            elements.adminDashboardView.style.display = 'block';
+            elements.btnToggleAdminView.style.display = 'none';
+            elements.btnToggleExamView.style.display = 'inline-block';
+            if (window.MLFAdmin) {
+                window.MLFAdmin.renderOverview();
+                window.MLFAdmin.renderUsersTable();
+                window.MLFAdmin.renderAttemptsTable();
+                window.MLFAdmin.renderQuestionsTable();
+                window.MLFAdmin.renderSyllabusAnalytics();
+            }
+        });
+
+        // Switch back to Exam View
+        elements.btnToggleExamView.addEventListener('click', () => {
+            elements.adminDashboardView.style.display = 'none';
+            elements.examInterfaceView.style.display = 'block';
+            elements.btnToggleExamView.style.display = 'none';
+            const curUser = window.MLFAuth.getCurrentUser();
+            if (curUser && curUser.role === 'admin') {
+                elements.btnToggleAdminView.style.display = 'inline-block';
+            }
         });
     }
 
