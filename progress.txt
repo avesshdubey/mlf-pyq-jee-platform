@@ -51,3 +51,22 @@ Iteration 5: Task 6 Completed - Quality Assurance, CodeRabbit Audit & Remote Pus
   * Portable test base directory.
 - Pushed all deliverables to remote GitHub repository.
 --------------------------------------------------------------------------------
+Iteration 6: Task 7 Completed - Authentication Gate, Admin Control Panel, CodeRabbit Review & Live GitHub Pages Deployment
+- Implemented persistent Authentication & User Control (`js/auth.js`) with localStorage/sessionStorage backing.
+- Implemented Admin Control Panel with interactive Dashboard (`js/admin.js`):
+  * KPI overview cards (Total Questions, Active Users, Tests Taken, Avg Score).
+  * User Management table (search, filter, status active/inactive toggle, reset password, add/delete user).
+  * Live Test Attempts submission feed table.
+  * Question Bank inventory explorer with search and filter.
+  * Syllabus Coverage progress bars.
+  * CSV and JSON data export.
+- Integrated Candidate Header Card with dynamic name, roll number, role, Sign Out, and Admin Panel navigation toggle.
+- CodeRabbit Review audit completed:
+  * Restored scorecard view when returning from admin dashboard.
+  * Reset exam state cleanly on user sign out.
+  * Exam timer lifecycle scoped exclusively to active authenticated exam session.
+  * .auth-body modal scrolling fixed for short screens.
+- Changed GitHub repository visibility from PRIVATE to PUBLIC.
+- Configured and deployed GitHub Pages with `.nojekyll` bypass.
+- Verified live website response (HTTP 200 OK) at https://avesshdubey.github.io/mlf-pyq-jee-platform/
+--------------------------------------------------------------------------------

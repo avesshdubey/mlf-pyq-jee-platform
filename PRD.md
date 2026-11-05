@@ -38,3 +38,10 @@
   - Execute automated tests to verify question counts, option consistency, JSON schema validity, and HTML responsiveness.
   - Run CodeRabbit CLI review (`cr review --agent`) and resolve any flagged issues.
   - Commit all changes and auto-push to GitHub remote.
+
+- [x] **Task 7: User Authentication, Admin Control Panel & GitHub Pages Public Deployment**
+  - Implement Login & Sign Up modal with persistent session management (`js/auth.js`).
+  - Build Admin Control Panel with Dashboard analytics, user status control, test submissions log, question bank explorer, and CSV export (`js/admin.js`).
+  - Make GitHub repository public (`avesshdubey/mlf-pyq-jee-platform`).
+  - Deploy application to GitHub Pages (`https://avesshdubey.github.io/mlf-pyq-jee-platform/`).
+  - Pass CodeRabbit review audit and all automated unit tests.
